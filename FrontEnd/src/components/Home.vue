@@ -1,9 +1,9 @@
 <template>
     <header>
-    <h1>🖥️ Tech Equipment Store</h1>
+    <h1>Green Gizmos</h1>
     </header>
 
-  <nav>
+  <nav class="Menu">
     <a href="#">Computing Equipment</a>
     <a href="#">Components & Upgrades</a>
     <a href="#">Monitors & Displays</a>
@@ -51,3 +51,12 @@
     </div>
   </section>
 </template>
+
+<style scoped>
+    .Menu{
+        display: flex;
+        gap: 10px;
+        font-style: none;
+        
+    }
+</style>
