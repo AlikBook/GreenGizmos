@@ -36,7 +36,7 @@ cd FrontEnd
 npm install
 ```
 
-To launch the Vue app:
+To launffdch the Vue app:
 
 ```ssh
 npm run dev
