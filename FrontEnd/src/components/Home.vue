@@ -4,7 +4,7 @@
             <li>Computing Equipment</li>
             <li>Components & Upgrades
             </li>
-            <li></li>
+            <li>Computer</li>
             <li></li>
         </ul>
     </div>    
