@@ -10,8 +10,12 @@
   </nav>
 
   <div class="banner">
-    <div><h1>Upgrade Your Tech Today</h1></div>
-    <img src="" alt="">
+    <div>
+        <h1>Upgrade Your Tech Today</h1>
+        <h1>by taking care of the environment</h1>
+        <p></p>
+    </div>
+    <img src="../imgs/Laptop 1.webp" alt="">
   </div>
 
   <div class="section-title">🔥 Featured Products</div>
@@ -69,5 +73,15 @@
     }
     .Menu>h2{
         color: white;
+    }
+    .banner{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: beige;
+    }
+    .banner>img{
+        width: 400px;
+        height: auto;
     }
 </style>
