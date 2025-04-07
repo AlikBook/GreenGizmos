@@ -8,6 +8,15 @@ app.get("/", (req, res) => {
   res.send("Hello depuis le backend Node.js !");
 });
 
+app.get("/products", (req, res) => {
+  const products = [
+    { id: 1, name: "Produit 1", price: 10 },
+    { id: 2, name: "Produit 2", price: 20 },
+    { id: 3, name: "Produit 3", price: 30 },
+  ];
+  res.json(products);
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
