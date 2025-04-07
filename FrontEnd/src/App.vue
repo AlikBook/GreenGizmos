@@ -4,4 +4,5 @@ import Home from './components/Home.vue'
 
 <template>
 <Home></Home>
+<p>aajujsh</p>
 </template>
