@@ -1,9 +1,6 @@
 <template>
-    <header>
-    <h1>Green Gizmos</h1>
-    </header>
-
   <nav class="Menu">
+    <h2>Green Gizmos</h2>
     <a href="#">Computing Equipment</a>
     <a href="#">Components & Upgrades</a>
     <a href="#">Monitors & Displays</a>
@@ -13,7 +10,8 @@
   </nav>
 
   <div class="banner">
-    Upgrade Your Tech Today
+    <div><h1>Upgrade Your Tech Today</h1></div>
+    <img src="" alt="">
   </div>
 
   <div class="section-title">🔥 Featured Products</div>
@@ -57,6 +55,19 @@
         display: flex;
         gap: 10px;
         font-style: none;
+        background-color: #588157;
+        height: 70px;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 10px;
         
+    }
+    .Menu>a{
+        text-decoration: none;
+        color: white;
+    }
+    .Menu>h2{
+        color: white;
     }
 </style>
