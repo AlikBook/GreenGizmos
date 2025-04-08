@@ -45,9 +45,10 @@ To install the depedencies:
 ```ssh
 cd FrontEnd
 npm install
+hrjkrjrjdddd
 ```
 
-To launch the Vue app:
+To launffdch the Vue app:
 
 ```ssh
 npm run dev
