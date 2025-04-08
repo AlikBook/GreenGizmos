@@ -60,12 +60,11 @@
         gap: 10px;
         font-style: none;
         background-color: #588157;
-        height: 70px;
+        height: 80px;
         justify-content: center;
         align-items: center;
         text-align: center;
-        padding: 10px;
-        
+        padding: 10px;   
     }
     .Menu>a{
         text-decoration: none;
@@ -73,12 +72,16 @@
     }
     .Menu>h2{
         color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
     .banner{
         display: flex;
         align-items: center;
         justify-content: center;
         background-color: beige;
+        gap: 35px;
     }
     .banner>img{
         width: 400px;
