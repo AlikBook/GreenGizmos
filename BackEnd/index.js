@@ -41,6 +41,26 @@ app.get("/products", (req, res) => {
   });
 });
 
+app.get("/products_by_category", async (req, res) => {
+  const category = req.query.category; // Récupère la catégorie depuis la requête
+  try {
+    const [rows] = await connection.promise().execute(
+      `
+      SELECT p.* 
+      FROM Products p
+      JOIN Belongs_to bt ON p.product_id = bt.product_id
+      JOIN Categories c ON bt.category_name = c.category_name
+      WHERE c.category_name = ?
+      `,
+      [category]
+    );
+    res.json(rows); // Retourne les produits trouvés
+  } catch (error) {
+    console.error("Error fetching products by category:", error);
+    res.status(500).send("Error fetching products by category");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
