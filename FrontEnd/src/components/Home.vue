@@ -41,35 +41,27 @@
         <p>High-performance workstation for professionals.</p>
       </div>
     </div>
-
-    <div class="product-card">
-      <img
-        src="https://via.placeholder.com/300x180?text=Samsung+Monitor"
-        alt="Samsung Monitor"
-      />
-      <div class="info">
-        <h3>Samsung LED Monitor</h3>
-        <p>24” full HD LED monitor with vivid colors.</p>
-      </div>
-    </div>
-
-    <div class="product-card">
-      <img
-        src="https://via.placeholder.com/300x180?text=Logitech+Keyboard"
-        alt="Logitech Keyboard"
-      />
-      <div class="info">
-        <h3>Logitech Wireless Keyboard</h3>
-        <p>Sleek, responsive, and built for productivity.</p>
-      </div>
-    </div>
   </section>
 
   <Filters />
+
+  <!-- Nouvelle section pour afficher les produits d'une catégorie -->
+  <div class="section-title">🛒 Products in Computing Equipment</div>
+  <section class="category-section">
+    <CategoryProducts :categoryName="'Computing Equipment'" />
+  </section>
+
+  <div class="section-title">🛒 Products in Monitors & Displays</div>
+  <section class="category-section">
+    <CategoryProducts :categoryName="'Keyboards (wired/wireless)'" />
+  </section>
+
+  <CategoryProducts :categoryName="'Computing Equipment'" />
 </template>
 
 <script setup>
 import Filters from "./Filters.vue";
+import CategoryProducts from "./CategoryProducts.vue"; // Import du composant
 </script>
 
 <style scoped>
@@ -104,5 +96,12 @@ import Filters from "./Filters.vue";
 .banner > img {
   width: 400px;
   height: auto;
+}
+.category-section {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f9f9f9;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 </style>
