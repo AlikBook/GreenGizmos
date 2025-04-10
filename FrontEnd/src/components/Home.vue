@@ -14,12 +14,13 @@
   </nav>
 
   <div class="banner">
+    <img src="../imgs/laptop_586.webp" alt="" />
     <div>
       <h1>Upgrade Your Tech Today</h1>
       <h1>by taking care of the environment</h1>
       <p></p>
     </div>
-    <img src="../imgs/Laptop 1.webp" alt="" />
+    
   </div>
 
   <div class="section-title">🔥 Featured Products</div>
@@ -73,7 +74,7 @@ import CategoryProducts from "./CategoryProducts.vue"; // Import du composant
         display: flex;
         gap: 10px;
         font-style: none;
-        background-color: #588157;
+        background-color: #598B71;
         height: 80px;
         justify-content: space-between;
         align-items: center;
@@ -95,8 +96,12 @@ import CategoryProducts from "./CategoryProducts.vue"; // Import du composant
         display: flex;
         align-items: center;
         justify-content: center;
-        
-        gap: 35px;
+        background-image: url(../imgs/Home_background.webp);
+        background-size:cover; /* Reduces the size of the background image */
+        background-position: center; /* Centers the background image */
+        background-color: none;
+        height: 520px;
+        gap: 60px;
     }
     .banner>img{
         width: 400px;
