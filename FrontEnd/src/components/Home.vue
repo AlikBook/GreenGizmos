@@ -94,7 +94,7 @@
     }
     .users{
       display: flex;
-      gap: 10px;
+      gap: 11px;
     }
 
   
