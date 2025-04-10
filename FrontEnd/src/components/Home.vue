@@ -7,6 +7,10 @@
     <a href="#">Peripherals</a>
     <a href="#">Printing & Scanning</a>
     <a href="#">Mobile Gear</a>
+    <div class="users">
+      <a href="#">Log in</a>
+      <a href="#">Sign up</a>
+    </div>
   </nav>
 
   <div class="banner">
@@ -65,43 +69,41 @@ import CategoryProducts from "./CategoryProducts.vue"; // Import du composant
 </script>
 
 <style scoped>
-.Menu {
-  display: flex;
-  gap: 10px;
-  font-style: none;
-  background-color: #588157;
-  height: 80px;
-  justify-content: center;
-  align-items: center;
-  text-align: center;
-  padding: 10px;
-}
-.Menu > a {
-  text-decoration: none;
-  color: white;
-}
-.Menu > h2 {
-  color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-.banner {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background-color: beige;
-  gap: 35px;
-}
-.banner > img {
-  width: 400px;
-  height: auto;
-}
-.category-section {
-  margin-top: 20px;
-  padding: 10px;
-  background-color: #f9f9f9;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-}
+    .Menu{
+        display: flex;
+        gap: 10px;
+        font-style: none;
+        background-color: #588157;
+        height: 80px;
+        justify-content: space-between;
+        align-items: center;
+        text-align: center;
+        padding: 0 20px 0 20px;
+    }
+    .Menu a{
+        text-decoration: none;
+        color: white;
+    }
+    .Menu>h2{
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+    }
+    .banner{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        
+        gap: 35px;
+    }
+    .banner>img{
+        width: 400px;
+        height: auto;
+    }
+    .users{
+      display: flex;
+      gap: 11px;
+    }
 </style>
