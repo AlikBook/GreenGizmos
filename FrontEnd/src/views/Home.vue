@@ -1,18 +1,5 @@
 <template>
-  <nav class="Menu">
-    <h2>Green Gizmos</h2>
-    <a href="#">Computing Equipment</a>
-    <a href="#">Components & Upgrades</a>
-    <a href="#">Monitors & Displays</a>
-    <a href="#">Peripherals</a>
-    <a href="#">Printing & Scanning</a>
-    <a href="#">Mobile Gear</a>
-    <div class="users">
-      <a href="#">Log in</a>
-      <a href="#">Sign up</a>
-    </div>
-  </nav>
-
+  
   <div class="banner">
     <img src="../imgs/laptop_586.webp" alt="" />
     <div>
@@ -65,33 +52,11 @@
 </template>
 
 <script setup>
-import Filters from "./Filters.vue";
-import CategoryProducts from "./CategoryProducts.vue"; // Import du composant
+import Filters from "../components/Filters.vue"; 
+import CategoryProducts from "../components/CategoryProducts.vue";
 </script>
 
 <style scoped>
-    .Menu{
-        display: flex;
-        gap: 10px;
-        font-style: none;
-        background-color: #598B71;
-        height: 80px;
-        justify-content: space-between;
-        align-items: center;
-        text-align: center;
-        padding: 0 20px 0 20px;
-    }
-    .Menu a{
-        text-decoration: none;
-        color: white;
-    }
-    .Menu>h2{
-        color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }
     .banner{
         display: flex;
         align-items: center;

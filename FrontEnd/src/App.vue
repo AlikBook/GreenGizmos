@@ -1,8 +1,8 @@
 <script setup>
-import Home from './components/Home.vue'
+import Menu from './components/Menu.vue';
 </script>
 
 <template>
-<Home></Home>
-<p>aajujsh</p>
+  <Menu></Menu>
+  <router-view></router-view>
 </template>
