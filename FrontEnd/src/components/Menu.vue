@@ -1,7 +1,10 @@
 <template>
     <nav class="Menu">
     <router-link to="/" class="logo-link">
+    <div class="logo">
+        <img src="../imgs/logo.png" alt="" width="40px" height="40px"/>
         <h2>Green Gizmos</h2>
+    </div>
     </router-link>
     <router-link to="/computing-equipment">Computing Equipment</router-link>
     <router-link to="/components-upgrades">Components & Upgrades</router-link>
@@ -21,12 +24,19 @@
         display: flex;
         gap: 10px;
         font-style: none;
-        background-color: #598B71;
+        background-color: #215249;
         height: 80px;
         justify-content: space-between;
         align-items: center;
         text-align: center;
         padding: 0 20px 0 20px;
+
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        
     }
     .Menu a{
         text-decoration: none;
@@ -37,6 +47,18 @@
         display: flex;
         align-items: center;
         justify-content: center;
+        
+    }
+    .logo{
+        
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+    }
+    .logo>img{
+        background-color: white;
+        border-radius: 100%;
         
     }
 </style>
