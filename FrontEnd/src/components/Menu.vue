@@ -22,7 +22,7 @@
 <style scoped>
     .Menu{
         display: flex;
-        gap: 10px;
+        gap: 8px;
         font-style: none;
         background-color: #215249;
         height: 80px;
@@ -40,6 +40,7 @@
     }
     .Menu a{
         text-decoration: none;
+        font-size: 15px;
         color: white;
     }
     .Menu>h2{
@@ -59,6 +60,11 @@
     .logo>img{
         background-color: white;
         border-radius: 100%;
-        
+    }
+
+    .users{
+        display: flex;
+        gap: 10px;
+        flex-direction: column;
     }
 </style>
