@@ -12,17 +12,60 @@
     <router-link to="/peripherals">Peripherals</router-link>
     <router-link to="/printing-scanning">Printing & Scanning</router-link>
     <router-link to="/mobile-gear">Mobile Gear</router-link>
+    <router-link to="/cart">
+        <div>
+            <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+            <p>0</p>
+        </div>
+    </router-link>
     <div class="users">
-      <router-link to="#">Log in</router-link>
-      <router-link to="#">Sign up</router-link>
+    <template v-if="isLoggedIn">
+        <p>Welcome !</p>
+        <p>{{ username }}</p>
+        <button @click="logout">Logout</button>
+    </template>
+    <template v-else>
+        <router-link to="/log-in">Log in</router-link>
+        <router-link to="/sign-up">Sign up</router-link>
+    </template>
     </div>
     </nav>
 </template>
 
+
+<script>
+import { ref, onMounted } from "vue";
+import { auth } from "../auth.js";
+
+export default {
+  setup() {
+    const isLoggedIn = ref(!!localStorage.getItem("token"));
+    const username = ref(localStorage.getItem("username") || "");
+
+    const logout = () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("username");
+      auth.logout(); // notify listeners
+    };
+
+    onMounted(() => {
+      auth.emitter.on("auth-change", (status) => {
+        isLoggedIn.value = status;
+        username.value = localStorage.getItem("username") || "";
+      });
+    });
+
+    return { isLoggedIn, username, logout };
+  },
+};
+</script>
+
+
+
 <style scoped>
     .Menu{
         display: flex;
-        gap: 8px;
+        
         font-style: none;
         background-color: #215249;
         height: 80px;
@@ -64,7 +107,20 @@
 
     .users{
         display: flex;
-        gap: 10px;
+        gap: 5px;
         flex-direction: column;
+    }
+
+    .users>p{
+        color: white;
+        font-size: 15px;
+    }
+    .users >button{
+        background-color: white;
+        color: #215249;
+        border: none;
+        padding: 5px 10px;
+        border-radius: 5px;
+        cursor: pointer;
     }
 </style>

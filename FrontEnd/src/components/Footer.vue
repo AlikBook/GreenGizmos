@@ -31,7 +31,7 @@
   color: white;
   padding: 40px 20px 20px;
   font-size: 14px;
-  margin-top: 40px;
+  
 }
 
 .footer-container {
