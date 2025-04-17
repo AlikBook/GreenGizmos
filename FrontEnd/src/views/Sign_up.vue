@@ -22,39 +22,57 @@
 </template>
   
 <script>
-  import axios from "axios";
-  
-  export default {
-    data() {
-      return {
-        username: "",
-        email: "",
-        password: "",
-        errorMessage: "",
-        successMessage: "",
-      };
+import axios from "axios";
+import { auth } from "../auth.js"; // import auth to notify the login
+
+export default {
+  data() {
+    return {
+      username: "",
+      email: "",
+      password: "",
+      errorMessage: "",
+      successMessage: "",
+    };
+  },
+  methods: {
+    async registerUser() {
+      try {
+        const registerResponse = await axios.post("http://localhost:3000/register", {
+          username: this.username,
+          email: this.email,
+          password: this.password,
+        });
+
+        this.successMessage = registerResponse.data.message;
+        this.errorMessage = "";
+
+        // Automatically log the user in
+        const loginResponse = await axios.post("http://localhost:3000/login", {
+          username: this.username,
+          password: this.password,
+        });
+
+        localStorage.setItem("token", loginResponse.data.token);
+        localStorage.setItem("username", this.username);
+        auth.login(); // Notify app of login
+
+        // Redirect to home
+        this.$router.push("/");
+
+        // Optionally clear form
+        this.username = "";
+        this.email = "";
+        this.password = "";
+      } catch (error) {
+        this.errorMessage = error.response?.data?.message || "An error occurred.";
+        this.successMessage = "";
+      }
     },
-    methods: {
-      async registerUser() {
-        try {
-          const response = await axios.post("http://localhost:3000/register", {
-            username: this.username,
-            email: this.email,
-            password: this.password,
-          });
-          this.successMessage = response.data.message;
-          this.errorMessage = "";
-          this.username = "";
-          this.email = "";
-          this.password = "";
-        } catch (error) {
-          this.errorMessage = error.response?.data?.message || "An error occurred.";
-          this.successMessage = "";
-        }
-      },
-    },
-  };
+  },
+};
 </script>
+
   
 <style scoped>
 .signup {
