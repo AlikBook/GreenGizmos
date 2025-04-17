@@ -19,6 +19,16 @@ CREATE TABLE Belongs_to(
    FOREIGN KEY(product_id) REFERENCES Products(product_id),
    FOREIGN KEY(category_name) REFERENCES Categories(category_name)
 );
+
+CREATE TABLE users (
+  user_id INT PRIMARY KEY AUTO_INCREMENT,
+  username VARCHAR(255) NOT NULL UNIQUE,
+  password VARCHAR(255) NOT NULL,
+  email VARCHAR(255) UNIQUE NOT NULL,
+  role ENUM('admin', 'user', 'guest') DEFAULT 'guest'
+);
+
+
 INSERT INTO Categories (category_name)
 VALUES 
 ('Laptops'),('Desktops'),('Workstations'),('Mini PCs / Thin Clients'),('All-in-One PCs'),('Processors (CPUs)'),('RAM (Memory Modules)'),('Storage Devices'),('SSDs'),
