@@ -45,7 +45,7 @@ app.get("/products", (req, res) => {
 });
 
 app.get("/products_by_category", async (req, res) => {
-  const category = req.query.category; // Récupère la catégorie depuis la requête
+  const category = req.query.category; 
   try {
     const [rows] = await connection.promise().execute(
       `
@@ -57,10 +57,28 @@ app.get("/products_by_category", async (req, res) => {
       `,
       [category]
     );
-    res.json(rows); // Retourne les produits trouvés
+    res.json(rows); 
   } catch (error) {
     console.error("Error fetching products by category:", error);
     res.status(500).send("Error fetching products by category");
+  }
+});
+
+app.get("/search_products", async (req, res) => {
+  const searchTerm = req.query.q; 
+  try {
+    const [rows] = await connection.promise().execute(
+      `
+      SELECT * 
+      FROM Products
+      WHERE product_name LIKE ? OR product_description LIKE ?
+      `,
+      [`%${searchTerm}%`, `%${searchTerm}%`] 
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).send("Error searching products");
   }
 });
 
