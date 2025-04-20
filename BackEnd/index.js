@@ -45,7 +45,7 @@ app.get("/products", (req, res) => {
 });
 
 app.get("/products_by_category", async (req, res) => {
-  const category = req.query.category; // Récupère la catégorie depuis la requête
+  const category = req.query.category; 
   try {
     const [rows] = await connection.promise().execute(
       `
@@ -57,10 +57,38 @@ app.get("/products_by_category", async (req, res) => {
       `,
       [category]
     );
-    res.json(rows); // Retourne les produits trouvés
+    res.json(rows); 
   } catch (error) {
     console.error("Error fetching products by category:", error);
     res.status(500).send("Error fetching products by category");
+  }
+});
+
+app.get("/search_products", async (req, res) => {
+  const searchTerm = req.query.q; 
+  try {
+    const [rows] = await connection.promise().execute(
+      `
+      SELECT * 
+      FROM Products
+      WHERE product_name LIKE ? OR product_description LIKE ?
+      `,
+      [`%${searchTerm}%`, `%${searchTerm}%`] 
+    );
+    res.json(rows);
+  } catch (error) {
+    console.error("Error searching products:", error);
+    res.status(500).send("Error searching products");
+  }
+});
+
+app.get("/categories", async (req, res) => {
+  try {
+    const [rows] = await connection.promise().execute("SELECT category_name FROM Categories");
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).send("Error fetching categories");
   }
 });
 
@@ -155,4 +183,33 @@ app.post("/login", (req, res) => {
       res.json({ token, role: user.role });
     }
   );
+});
+
+app.post("/add_product", async (req, res) => {
+  const { product_name, product_price, product_description, category_name } = req.body;
+
+  try {
+    const [result] = await connection.promise().execute(
+      `
+      INSERT INTO Products (product_name, product_price, product_description)
+      VALUES (?, ?, ?)
+      `,
+      [product_name, product_price, product_description]
+    );
+
+    const product_id = result.insertId; 
+
+    await connection.promise().execute(
+      `
+      INSERT INTO Belongs_to (product_id, category_name)
+      VALUES (?, ?)
+      `,
+      [product_id, category_name]
+    );
+
+    res.status(201).json({ message: "Product added successfully" });
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ message: "Error adding product" });
+  }
 });

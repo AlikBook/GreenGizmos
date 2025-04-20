@@ -18,6 +18,7 @@
             <p>0</p>
         </div>
     </router-link>
+    <router-link to="/add-product">Add Product</router-link>
     <div class="users">
     <template v-if="isLoggedIn">
         <p>Welcome !</p>
@@ -29,6 +30,8 @@
         <router-link to="/sign-up">Sign up</router-link>
     </template>
     </div>
+
+    <SearchBar />
     </nav>
 </template>
 
@@ -36,7 +39,7 @@
 <script>
 import { ref, onMounted } from "vue";
 import { auth } from "../auth.js";
-
+import SearchBar from "./SearchBar.vue"; 
 export default {
   setup() {
     const isLoggedIn = ref(!!localStorage.getItem("token"));
@@ -56,6 +59,9 @@ export default {
     });
 
     return { isLoggedIn, username, logout };
+  },
+  components: {
+    SearchBar,
   },
 };
 </script>
