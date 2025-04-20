@@ -18,6 +18,7 @@
             <p>0</p>
         </div>
     </router-link>
+    <router-link to="/add-product">Add Product</router-link>
     <div class="users">
     <template v-if="isLoggedIn">
         <p>Welcome !</p>

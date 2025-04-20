@@ -82,6 +82,16 @@ app.get("/search_products", async (req, res) => {
   }
 });
 
+app.get("/categories", async (req, res) => {
+  try {
+    const [rows] = await connection.promise().execute("SELECT category_name FROM Categories");
+    res.json(rows);
+  } catch (error) {
+    console.error("Error fetching categories:", error);
+    res.status(500).send("Error fetching categories");
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
@@ -173,4 +183,33 @@ app.post("/login", (req, res) => {
       res.json({ token, role: user.role });
     }
   );
+});
+
+app.post("/add_product", async (req, res) => {
+  const { product_name, product_price, product_description, category_name } = req.body;
+
+  try {
+    const [result] = await connection.promise().execute(
+      `
+      INSERT INTO Products (product_name, product_price, product_description)
+      VALUES (?, ?, ?)
+      `,
+      [product_name, product_price, product_description]
+    );
+
+    const product_id = result.insertId; 
+
+    await connection.promise().execute(
+      `
+      INSERT INTO Belongs_to (product_id, category_name)
+      VALUES (?, ?)
+      `,
+      [product_id, category_name]
+    );
+
+    res.status(201).json({ message: "Product added successfully" });
+  } catch (error) {
+    console.error("Error adding product:", error);
+    res.status(500).json({ message: "Error adding product" });
+  }
 });
