@@ -1,44 +1,26 @@
 <template>
   <div class="search-bar">
-    <input
-      type="text"
-      v-model="searchTerm"
-      placeholder="Search for products..."
-      @input="onSearch"
-    />
-    <div class="results-container">
-      <ul v-if="results.length > 0" class="results-list">
-        <li v-for="product in results" :key="product.product_id">
-          <h3>{{ product.product_name }}</h3>
-          <p>{{ product.product_description }}</p>
-          <p>Price: ${{ product.product_price }}</p>
-        </li>
-      </ul>
-      <p v-else-if="searchTerm && results.length === 0">No products found.</p>
-    </div>
+    <form @submit.prevent="onSearch">
+      <input
+        type="text"
+        v-model="searchTerm"
+        placeholder="Search for products..."
+      />
+      <button type="submit">Search</button>
+    </form>
   </div>
 </template>
 
 <script setup>
 import { ref } from "vue";
-import axios from "axios";
+import { useRouter } from "vue-router";
 
 const searchTerm = ref(""); 
-const results = ref([]); 
+const router = useRouter(); 
 
-const onSearch = async () => {
-  if (searchTerm.value.trim() === "") {
-    results.value = []; 
-    return;
-  }
-
-  try {
-    const response = await axios.get(
-      `http://localhost:3000/search_products?q=${searchTerm.value}`
-    );
-    results.value = response.data; 
-  } catch (error) {
-    console.error("Error searching products:", error);
+const onSearch = () => {
+  if (searchTerm.value.trim() !== "") {
+    router.push({ path: "/search-results", query: { q: searchTerm.value } });
   }
 };
 </script>
@@ -46,41 +28,37 @@ const onSearch = async () => {
 <style scoped>
 .search-bar {
   margin: 20px 0;
-  position: relative; 
+  display: flex;
+  justify-content: center; 
+  align-items: center;
+}
+
+.search-bar form {
+  display: flex;
+  gap: 10px; 
+  max-width: 600px;
+  width: 100%;
 }
 
 .search-bar input {
-  width: 100%;
+  flex: 1; 
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }
 
-.results-container {
-  max-height: 300px; 
-  overflow-y: auto; 
-  margin-top: 10px;
-  border: 1px solid #ddd;
+.search-bar button {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: white;
+  background-color: #215249;
+  border: none;
   border-radius: 5px;
-  background-color: #fff; 
-  position: absolute; 
-  width: 100%; 
-  z-index: 10; 
+  cursor: pointer;
 }
 
-.results-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.results-list li {
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-}
-
-.results-list li:last-child {
-  border-bottom: none; 
+.search-bar button:hover {
+  background-color: #1a4038;
 }
 </style>
