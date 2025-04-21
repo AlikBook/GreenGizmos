@@ -1,12 +1,13 @@
+drop database if exists greenguizmos ;
 create database greenguizmos;
 use greenguizmos;
 
-CREATE TABLE Products(
-   product_id INT,
+CREATE TABLE Products (
+   product_id INT AUTO_INCREMENT,
    product_name VARCHAR(50),
    product_price DECIMAL(15,2),
    product_description TEXT,
-   PRIMARY KEY(product_id)
+   PRIMARY KEY (product_id)
 );
 CREATE TABLE Categories(
    category_name VARCHAR(50),

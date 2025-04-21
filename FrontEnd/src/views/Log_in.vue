@@ -51,7 +51,8 @@
           this.errorMessage = "";
   
           localStorage.setItem("token", response.data.token);
-          localStorage.setItem("username", this.username); // Add this line
+          localStorage.setItem("username", this.username);
+          localStorage.setItem("role", response.data.role);
           auth.login();
           this.username = "";
           this.password = "";
