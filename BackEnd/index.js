@@ -46,7 +46,7 @@ app.get("/products", (req, res) => {
 });
 
 app.get("/products_by_category", async (req, res) => {
-  const category = req.query.category; 
+  const category = req.query.category;
   try {
     const [rows] = await connection.promise().execute(
       `
@@ -58,7 +58,7 @@ app.get("/products_by_category", async (req, res) => {
       `,
       [category]
     );
-    res.json(rows); 
+    res.json(rows);
   } catch (error) {
     console.error("Error fetching products by category:", error);
     res.status(500).send("Error fetching products by category");
@@ -66,7 +66,7 @@ app.get("/products_by_category", async (req, res) => {
 });
 
 app.get("/search_products", async (req, res) => {
-  const searchTerm = req.query.q; 
+  const searchTerm = req.query.q;
   try {
     const [rows] = await connection.promise().execute(
       `
@@ -74,7 +74,7 @@ app.get("/search_products", async (req, res) => {
       FROM Products
       WHERE product_name LIKE ? OR product_description LIKE ?
       `,
-      [`%${searchTerm}%`, `%${searchTerm}%`] 
+      [`%${searchTerm}%`, `%${searchTerm}%`]
     );
     res.json(rows);
   } catch (error) {
@@ -85,7 +85,9 @@ app.get("/search_products", async (req, res) => {
 
 app.get("/categories", async (req, res) => {
   try {
-    const [rows] = await connection.promise().execute("SELECT category_name FROM Categories");
+    const [rows] = await connection
+      .promise()
+      .execute("SELECT category_name FROM Categories");
     res.json(rows);
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -185,8 +187,8 @@ app.post("/login", (req, res) => {
       res.json({ token, role: user.role });
     }
   );
-}
-         
+});
+
 // Routes for the Cart
 
 // Adding a product to the cart
@@ -250,7 +252,8 @@ app.delete("/cart", verifyToken, (req, res) => {
 });
 
 app.post("/add_product", async (req, res) => {
-  const { product_name, product_price, product_description, category_name } = req.body;
+  const { product_name, product_price, product_description, category_name } =
+    req.body;
 
   try {
     const [result] = await connection.promise().execute(
@@ -261,7 +264,7 @@ app.post("/add_product", async (req, res) => {
       [product_name, product_price, product_description]
     );
 
-    const product_id = result.insertId; 
+    const product_id = result.insertId;
 
     await connection.promise().execute(
       `
@@ -279,10 +282,14 @@ app.post("/add_product", async (req, res) => {
 });
 
 app.get("/users", verifyToken, authorizeRoles("admin"), (req, res) => {
-  connection.query("SELECT user_id, username, email, role FROM users", (err, results) => {
-    if (err) return res.status(500).json({ message: "Failed to fetch users" });
-    res.json(results);
-  });
+  connection.query(
+    "SELECT user_id, username, email, role FROM users",
+    (err, results) => {
+      if (err)
+        return res.status(500).json({ message: "Failed to fetch users" });
+      res.json(results);
+    }
+  );
 });
 
 app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
@@ -293,7 +300,8 @@ app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
     "UPDATE users SET username = ?, email = ?, role = ? WHERE user_id = ?",
     [username, email, role, userId],
     (err) => {
-      if (err) return res.status(500).json({ message: "Failed to update user" });
+      if (err)
+        return res.status(500).json({ message: "Failed to update user" });
       res.json({ message: "User updated successfully" });
     }
   );
@@ -308,20 +316,20 @@ app.delete("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
   });
 });
 
-
 const createDefaultAdmin = async () => {
   try {
-    const [rows] = await connection.promise().execute(
-      "SELECT * FROM users WHERE username = ?",
-      ["admin"]
-    );
+    const [rows] = await connection
+      .promise()
+      .execute("SELECT * FROM users WHERE username = ?", ["admin"]);
 
     if (rows.length === 0) {
       const hashedPassword = await bcrypt.hash("admin123", 10);
-      await connection.promise().execute(
-        "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
-        ["admin", "admin@example.com", hashedPassword, "admin"]
-      );
+      await connection
+        .promise()
+        .execute(
+          "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+          ["admin", "admin@example.com", hashedPassword, "admin"]
+        );
       console.log("Default admin user created.");
     } else {
       console.log("Admin user already exists.");
@@ -330,4 +338,3 @@ const createDefaultAdmin = async () => {
     console.error("Error creating default admin:", error);
   }
 };
-
