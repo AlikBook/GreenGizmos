@@ -10,7 +10,7 @@ const PORT = 3000;
 require("dotenv").config();
 app.use(cors());
 
-app.use(express.json()); 
+app.use(express.json());
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -68,7 +68,6 @@ app.listen(PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
 
-
 app.post("/register", async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
 
@@ -95,7 +94,9 @@ app.post("/register", async (req, res) => {
         (err, results) => {
           if (err) {
             console.error("Registration error:", err);
-            return res.status(500).json({ message: "User registration failed" });
+            return res
+              .status(500)
+              .json({ message: "User registration failed" });
           }
           res.status(201).json({ message: "User registered" });
         }
@@ -103,7 +104,6 @@ app.post("/register", async (req, res) => {
     }
   );
 });
-
 
 function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -144,7 +144,8 @@ app.post("/login", (req, res) => {
       const user = results[0];
       const match = await bcrypt.compare(password, user.password);
 
-      if (!match) return res.status(401).json({ message: "Invalid credentials" });
+      if (!match)
+        return res.status(401).json({ message: "Invalid credentials" });
 
       const token = jwt.sign(
         { user_id: user.user_id, role: user.role },
@@ -156,3 +157,101 @@ app.post("/login", (req, res) => {
     }
   );
 });
+
+// Routes for the Cart
+
+app.post("/cart", verifyToken, (req, res) => {
+  const { product_id, quantity } = req.body;
+  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+
+  const query = `
+    INSERT INTO Cart (user_id, product_id, quantity)
+    VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE quantity = quantity + ?;
+  `;
+
+  connection.query(
+    query,
+    [user_id, product_id, quantity, quantity],
+    (err, results) => {
+      if (err) {
+        console.error("Error adding product to cart:", err);
+        return res.status(500).json({ error: "Server error" });
+      }
+      res.json({ message: "Product added to cart successfully" });
+    }
+  );
+});
+
+app.get("/cart", verifyToken, (req, res) => {
+  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+
+  const query = `
+    SELECT c.cart_id, c.quantity, p.product_name, p.product_price, p.product_description
+    FROM Cart c
+    JOIN Products p ON c.product_id = p.product_id
+    WHERE c.user_id = ?;
+  `;
+
+  connection.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching cart items:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json(results);
+  });
+});
+
+/*app.put("/cart", verifyToken, (req, res) => {
+  const { product_id, quantity } = req.body;
+  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+
+  const query = `
+    UPDATE Cart
+    SET quantity = ?
+    WHERE user_id = ? AND product_id = ?;
+  `;
+
+  connection.query(query, [quantity, user_id, product_id], (err, results) => {
+    if (err) {
+      console.error("Error updating cart item:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json({ message: "Cart item updated successfully" });
+  });
+});
+
+app.delete("/cart", verifyToken, (req, res) => {
+  const { product_id } = req.body;
+  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+
+  const query = `
+    DELETE FROM Cart
+    WHERE user_id = ? AND product_id = ?;
+  `;
+
+  connection.query(query, [user_id, product_id], (err, results) => {
+    if (err) {
+      console.error("Error deleting cart item:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json({ message: "Cart item removed successfully" });
+  });
+});
+
+app.delete("/cart/all", verifyToken, (req, res) => {
+  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+
+  const query = `
+    DELETE FROM Cart
+    WHERE user_id = ?;
+  `;
+
+  connection.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error clearing cart:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json({ message: "Cart cleared successfully" });
+  });
+});*/
