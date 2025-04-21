@@ -6,7 +6,7 @@ import Footer from './components/Footer.vue';
 
 <template>
   <Menu></Menu>
-  <div style="margin-top: 80px;">
+  <div style="margin-top: 130px;">
     <router-view></router-view>
   </div>
   <Footer></Footer>

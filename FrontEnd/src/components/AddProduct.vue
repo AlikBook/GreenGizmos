@@ -1,31 +1,34 @@
 <template>
-  <div class="add-product">
-    <h1>Add a New Product</h1>
-    <form @submit.prevent="addProduct">
-      <div class="form-group">
-        <label for="product_name">Product Name:</label>
-        <input type="text" id="product_name" v-model="product_name" required />
-      </div>
-      <div class="form-group">
-        <label for="product_price">Product Price:</label>
-        <input type="number" id="product_price" v-model="product_price" required />
-      </div>
-      <div class="form-group">
-        <label for="product_description">Product Description:</label>
-        <textarea id="product_description" v-model="product_description" required></textarea>
-      </div>
-      <div class="form-group">
-        <label for="category_name">Category:</label>
-        <select id="category_name" v-model="category_name" required>
-          <option v-for="category in categories" :key="category" :value="category">
-            {{ category }}
-          </option>
-        </select>
-      </div>
-      <button type="submit">Add Product</button>
-    </form>
-    <p v-if="message" class="success-message">{{ message }}</p>
+  <div class="add_product_page">
+    <div class="add-product">
+      <h1>Add a New Product</h1>
+      <form @submit.prevent="addProduct">
+        <div class="form-group">
+          <label for="product_name">Product Name:</label>
+          <input type="text" id="product_name" v-model="product_name" required />
+        </div>
+        <div class="form-group">
+          <label for="product_price">Product Price:</label>
+          <input type="number" id="product_price" v-model="product_price" required />
+        </div>
+        <div class="form-group">
+          <label for="product_description">Product Description:</label>
+          <textarea id="product_description" v-model="product_description" required></textarea>
+        </div>
+        <div class="form-group">
+          <label for="category_name">Category:</label>
+          <select id="category_name" v-model="category_name" required>
+            <option v-for="category in categories" :key="category" :value="category">
+              {{ category }}
+            </option>
+          </select>
+        </div>
+        <button type="submit">Add Product</button>
+      </form>
+      <p v-if="message" class="success-message">{{ message }}</p>
+    </div>
   </div>
+  
 </template>
 
 <script setup>
@@ -75,11 +78,11 @@ onMounted(() => {
 <style scoped>
 .add-product {
   max-width: 600px;
-  margin: 0 auto;
-  padding: 20px;
   border: 1px solid #ddd;
   border-radius: 5px;
   background-color: #f9f9f9;
+  width: 100%;
+  padding: 20px;
 }
 
 .form-group {
@@ -120,5 +123,13 @@ button:hover {
   margin-top: 15px;
   color: green;
   font-weight: bold;
+}
+.add_product_page{
+  width: 100%;
+  padding: 40px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
