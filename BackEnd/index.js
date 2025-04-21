@@ -160,9 +160,10 @@ app.post("/login", (req, res) => {
 
 // Routes for the Cart
 
+// Adding a product to the cart
 app.post("/cart", verifyToken, (req, res) => {
-  const { product_id, quantity } = req.body;
-  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+  const { product_id, quantity } = req.body; // Assuming quantity is sent in the request body
+  const user_id = req.user.user_id; // Get the user_id from the token
 
   const query = `
     INSERT INTO Cart (user_id, product_id, quantity)
@@ -183,14 +184,12 @@ app.post("/cart", verifyToken, (req, res) => {
   );
 });
 
+// Fetching the cart items for a user
 app.get("/cart", verifyToken, (req, res) => {
-  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+  const user_id = req.user.user_id; // Get the user_id from the token
 
   const query = `
-    SELECT c.cart_id, c.quantity, p.product_name, p.product_price, p.product_description
-    FROM Cart c
-    JOIN Products p ON c.product_id = p.product_id
-    WHERE c.user_id = ?;
+    SELECT * FROM Cart c WHERE c.user_id = ?;
   `;
 
   connection.query(query, [user_id], (err, results) => {
@@ -202,28 +201,10 @@ app.get("/cart", verifyToken, (req, res) => {
   });
 });
 
-/*app.put("/cart", verifyToken, (req, res) => {
-  const { product_id, quantity } = req.body;
-  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
-
-  const query = `
-    UPDATE Cart
-    SET quantity = ?
-    WHERE user_id = ? AND product_id = ?;
-  `;
-
-  connection.query(query, [quantity, user_id, product_id], (err, results) => {
-    if (err) {
-      console.error("Error updating cart item:", err);
-      return res.status(500).json({ error: "Server error" });
-    }
-    res.json({ message: "Cart item updated successfully" });
-  });
-});
-
+// Deleting a product from the cart
 app.delete("/cart", verifyToken, (req, res) => {
-  const { product_id } = req.body;
-  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
+  const { product_id } = req.body; // Assuming product_id is sent in the request body
+  const user_id = req.user.user_id; // Get the user_id from the token
 
   const query = `
     DELETE FROM Cart
@@ -238,20 +219,3 @@ app.delete("/cart", verifyToken, (req, res) => {
     res.json({ message: "Cart item removed successfully" });
   });
 });
-
-app.delete("/cart/all", verifyToken, (req, res) => {
-  const user_id = req.user.user_id; // Récupère l'ID de l'utilisateur depuis le token
-
-  const query = `
-    DELETE FROM Cart
-    WHERE user_id = ?;
-  `;
-
-  connection.query(query, [user_id], (err, results) => {
-    if (err) {
-      console.error("Error clearing cart:", err);
-      return res.status(500).json({ error: "Server error" });
-    }
-    res.json({ message: "Cart cleared successfully" });
-  });
-});*/
