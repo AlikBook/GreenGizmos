@@ -28,6 +28,7 @@ connection.connect((err) => {
     "Connexion réussie à la base de données avec l'ID",
     connection.threadId
   );
+  createDefaultAdmin();
 });
 
 app.get("/", (req, res) => {
@@ -213,3 +214,56 @@ app.post("/add_product", async (req, res) => {
     res.status(500).json({ message: "Error adding product" });
   }
 });
+
+app.get("/users", verifyToken, authorizeRoles("admin"), (req, res) => {
+  connection.query("SELECT user_id, username, email, role FROM users", (err, results) => {
+    if (err) return res.status(500).json({ message: "Failed to fetch users" });
+    res.json(results);
+  });
+});
+
+app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
+  const userId = req.params.id;
+  const { username, email, role } = req.body;
+
+  connection.query(
+    "UPDATE users SET username = ?, email = ?, role = ? WHERE user_id = ?",
+    [username, email, role, userId],
+    (err) => {
+      if (err) return res.status(500).json({ message: "Failed to update user" });
+      res.json({ message: "User updated successfully" });
+    }
+  );
+});
+
+app.delete("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
+  const userId = req.params.id;
+
+  connection.query("DELETE FROM users WHERE user_id = ?", [userId], (err) => {
+    if (err) return res.status(500).json({ message: "Failed to delete user" });
+    res.json({ message: "User deleted successfully" });
+  });
+});
+
+
+const createDefaultAdmin = async () => {
+  try {
+    const [rows] = await connection.promise().execute(
+      "SELECT * FROM users WHERE username = ?",
+      ["admin"]
+    );
+
+    if (rows.length === 0) {
+      const hashedPassword = await bcrypt.hash("admin123", 10);
+      await connection.promise().execute(
+        "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+        ["admin", "admin@example.com", hashedPassword, "admin"]
+      );
+      console.log("Default admin user created.");
+    } else {
+      console.log("Admin user already exists.");
+    }
+  } catch (error) {
+    console.error("Error creating default admin:", error);
+  }
+};

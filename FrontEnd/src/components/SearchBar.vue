@@ -27,7 +27,7 @@ const onSearch = () => {
 
 <style scoped>
 .search-bar {
-  margin: 20px 0;
+  width: 70%;
   display: flex;
   justify-content: center; 
   align-items: center;
@@ -58,7 +58,4 @@ const onSearch = () => {
   cursor: pointer;
 }
 
-.search-bar button:hover {
-  background-color: #1a4038;
-}
 </style>

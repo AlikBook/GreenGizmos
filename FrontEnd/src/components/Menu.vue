@@ -1,38 +1,53 @@
 <template>
-    <nav class="Menu">
-    <router-link to="/" class="logo-link">
-    <div class="logo">
-        <img src="../imgs/logo.png" alt="" width="40px" height="40px"/>
-        <h2>Green Gizmos</h2>
-    </div>
-    </router-link>
-    <router-link to="/computing-equipment">Computing Equipment</router-link>
-    <router-link to="/components-upgrades">Components & Upgrades</router-link>
-    <router-link to="/monitors-displays">Monitors & Displays</router-link>
-    <router-link to="/peripherals">Peripherals</router-link>
-    <router-link to="/printing-scanning">Printing & Scanning</router-link>
-    <router-link to="/mobile-gear">Mobile Gear</router-link>
-    <router-link to="/cart">
-        <div>
-            <font-awesome-icon :icon="['fas', 'cart-shopping']" />
-            <p>0</p>
-        </div>
-    </router-link>
-    <router-link to="/add-product">Add Product</router-link>
-    <div class="users">
-    <template v-if="isLoggedIn">
-        <p>Welcome !</p>
-        <p>{{ username }}</p>
-        <button @click="logout">Logout</button>
-    </template>
-    <template v-else>
-        <router-link to="/log-in">Log in</router-link>
-        <router-link to="/sign-up">Sign up</router-link>
-    </template>
-    </div>
+    <div class="main_menu">
 
-    <SearchBar />
-    </nav>
+    
+        <nav class="Menu">
+            <router-link to="/" class="logo-link">
+            <div class="logo">
+                <img src="../imgs/logo.png" alt="" width="40px" height="40px"/>
+                <h2>Green Gizmos</h2>
+            </div>
+            </router-link>
+            <router-link to="/computing-equipment">Computing Equipment</router-link>
+            <router-link to="/components-upgrades">Components & Upgrades</router-link>
+            <router-link to="/monitors-displays">Monitors & Displays</router-link>
+            <router-link to="/peripherals">Peripherals</router-link>
+            <router-link to="/printing-scanning">Printing & Scanning</router-link>
+            <router-link to="/mobile-gear">Mobile Gear</router-link>
+            <router-link to="/cart">
+                <div>
+                    <font-awesome-icon :icon="['fas', 'cart-shopping']" />
+                    <p>0</p>
+                </div>
+            </router-link>
+            
+
+            <div class="users">
+                <template v-if="isLoggedIn">
+                    <p>Welcome !</p>
+                    <p>{{ username }}</p>
+                    <button @click="logout">Logout</button>
+                </template>
+            
+                <template v-else>
+                    <router-link to="/log-in">Log in</router-link>
+                    <router-link to="/sign-up">Sign up</router-link>
+                </template>
+            </div>
+
+        
+        </nav>
+        <div class="search_bar_container">
+            <SearchBar />
+            <div v-if="role === 'admin'" class="admin_menu">
+                <router-link to="/add-product">Add Product</router-link>
+                <router-link to="/user-manager">Manage Users</router-link>
+            </div>
+        </div>
+        
+    </div>
+    
 </template>
 
 
@@ -44,10 +59,13 @@ export default {
   setup() {
     const isLoggedIn = ref(!!localStorage.getItem("token"));
     const username = ref(localStorage.getItem("username") || "");
-
+    const role = ref(localStorage.getItem("role") || "");
+    
     const logout = () => {
       localStorage.removeItem("token");
       localStorage.removeItem("username");
+      localStorage.removeItem("role");
+      role.value = "";
       auth.logout(); // notify listeners
     };
 
@@ -55,10 +73,11 @@ export default {
       auth.emitter.on("auth-change", (status) => {
         isLoggedIn.value = status;
         username.value = localStorage.getItem("username") || "";
+        role.value = localStorage.getItem("role") || "";
       });
     });
 
-    return { isLoggedIn, username, logout };
+    return { isLoggedIn, username, role ,logout };
   },
   components: {
     SearchBar,
@@ -71,7 +90,6 @@ export default {
 <style scoped>
     .Menu{
         display: flex;
-        
         font-style: none;
         background-color: #215249;
         height: 80px;
@@ -79,13 +97,6 @@ export default {
         align-items: center;
         text-align: center;
         padding: 0 20px 0 20px;
-
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        z-index: 1000;
-        
     }
     .Menu a{
         text-decoration: none;
@@ -129,4 +140,36 @@ export default {
         border-radius: 5px;
         cursor: pointer;
     }
+    .main_menu{
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        z-index: 1000;
+        margin-bottom: 1300px;
+    }
+    .search_bar_container{
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50px;
+        padding: 5px;
+        background-color: gray;
+    }
+    .admin_menu{
+        display: flex;
+        align-items: center;
+        width: 30%;
+        gap: 15px;
+        
+    }
+    .admin_menu a{
+        text-decoration: none;
+        color: white;
+        background-color: #215249;
+        padding: 5px 10px;
+        border-radius: 5px;
+    }
+    
 </style>
