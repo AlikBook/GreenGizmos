@@ -10,7 +10,7 @@ const PORT = 3000;
 require("dotenv").config();
 app.use(cors());
 
-app.use(express.json()); 
+app.use(express.json());
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,
@@ -97,7 +97,6 @@ app.listen(PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
 
-
 app.post("/register", async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
 
@@ -124,7 +123,9 @@ app.post("/register", async (req, res) => {
         (err, results) => {
           if (err) {
             console.error("Registration error:", err);
-            return res.status(500).json({ message: "User registration failed" });
+            return res
+              .status(500)
+              .json({ message: "User registration failed" });
           }
           res.status(201).json({ message: "User registered" });
         }
@@ -132,7 +133,6 @@ app.post("/register", async (req, res) => {
     }
   );
 });
-
 
 function verifyToken(req, res, next) {
   const authHeader = req.headers.authorization;
@@ -173,7 +173,8 @@ app.post("/login", (req, res) => {
       const user = results[0];
       const match = await bcrypt.compare(password, user.password);
 
-      if (!match) return res.status(401).json({ message: "Invalid credentials" });
+      if (!match)
+        return res.status(401).json({ message: "Invalid credentials" });
 
       const token = jwt.sign(
         { user_id: user.user_id, role: user.role },
@@ -184,6 +185,68 @@ app.post("/login", (req, res) => {
       res.json({ token, role: user.role });
     }
   );
+}
+         
+// Routes for the Cart
+
+// Adding a product to the cart
+app.post("/cart", verifyToken, (req, res) => {
+  const { product_id, quantity } = req.body; // Assuming quantity is sent in the request body
+  const user_id = req.user.user_id; // Get the user_id from the token
+
+  const query = `
+    INSERT INTO Cart (user_id, product_id, quantity)
+    VALUES (?, ?, ?)
+    ON DUPLICATE KEY UPDATE quantity = quantity + ?;
+  `;
+
+  connection.query(
+    query,
+    [user_id, product_id, quantity, quantity],
+    (err, results) => {
+      if (err) {
+        console.error("Error adding product to cart:", err);
+        return res.status(500).json({ error: "Server error" });
+      }
+      res.json({ message: "Product added to cart successfully" });
+    }
+  );
+});
+
+// Fetching the cart items for a user
+app.get("/cart", verifyToken, (req, res) => {
+  const user_id = req.user.user_id; // Get the user_id from the token
+
+  const query = `
+    SELECT * FROM Cart c WHERE c.user_id = ?;
+  `;
+
+  connection.query(query, [user_id], (err, results) => {
+    if (err) {
+      console.error("Error fetching cart items:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json(results);
+  });
+});
+
+// Deleting a product from the cart
+app.delete("/cart", verifyToken, (req, res) => {
+  const { product_id } = req.body; // Assuming product_id is sent in the request body
+  const user_id = req.user.user_id; // Get the user_id from the token
+
+  const query = `
+    DELETE FROM Cart
+    WHERE user_id = ? AND product_id = ?;
+  `;
+
+  connection.query(query, [user_id, product_id], (err, results) => {
+    if (err) {
+      console.error("Error deleting cart item:", err);
+      return res.status(500).json({ error: "Server error" });
+    }
+    res.json({ message: "Cart item removed successfully" });
+  });
 });
 
 app.post("/add_product", async (req, res) => {
@@ -267,3 +330,4 @@ const createDefaultAdmin = async () => {
     console.error("Error creating default admin:", error);
   }
 };
+

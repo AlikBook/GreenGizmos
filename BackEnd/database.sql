@@ -29,6 +29,16 @@ CREATE TABLE users (
   role ENUM('admin', 'user', 'guest') DEFAULT 'guest'
 );
 
+CREATE TABLE Cart (
+   cart_id INT PRIMARY KEY AUTO_INCREMENT,
+   user_id INT,
+   product_id INT,
+   quantity INT,
+   added_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+   status ENUM('active', 'completed', 'cancelled') DEFAULT 'active',
+   FOREIGN KEY(user_id) REFERENCES users(user_id),
+   FOREIGN KEY(product_id) REFERENCES Products(product_id)
+);
 
 INSERT INTO Categories (category_name)
 VALUES 
