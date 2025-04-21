@@ -12,6 +12,7 @@ import Cart from './views/Cart.vue';
 import SearchResults from './components/SearchResults.vue'; 
 import AddProduct from './components/AddProduct.vue';
 import UserManager from './views/UserManager.vue';
+import DeleteProduct from './components/DeleteProduct.vue';
 
 const routes = [
   { path: '/', component: Home, meta: { title: 'Home' } },
@@ -26,6 +27,7 @@ const routes = [
   { path: '/cart', component: Cart, meta: { title: 'Cart' } },
   { path: '/search-results', component: SearchResults, meta: { title: 'Search Results' } },
   { path: '/add-product', component: AddProduct, meta: { title: 'Add Product' } },
+  { path: '/delete-product', component: DeleteProduct, meta: { title: 'Delete Product' } },
   { path: '/user-manager', component: UserManager, meta: { title: 'User Manager' } },
 ];
 

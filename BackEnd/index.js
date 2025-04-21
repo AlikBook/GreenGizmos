@@ -316,6 +316,37 @@ app.delete("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
   });
 });
 
+app.delete("/delete_product_by_name", verifyToken, authorizeRoles("admin"), async (req, res) => {
+  const { product_name } = req.body;
+
+  try {
+    await connection.promise().execute(
+      `
+      DELETE FROM Belongs_to
+      WHERE product_id = (SELECT product_id FROM Products WHERE product_name = ?)
+      `,
+      [product_name]
+    );
+
+    const [result] = await connection.promise().execute(
+      `
+      DELETE FROM Products
+      WHERE product_name = ?
+      `,
+      [product_name]
+    );
+
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ message: "Product not found" });
+    }
+
+    res.status(200).json({ message: "Product deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting product:", error);
+    res.status(500).json({ message: "Error deleting product" });
+  }
+});
+
 const createDefaultAdmin = async () => {
   try {
     const [rows] = await connection

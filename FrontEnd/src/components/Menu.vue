@@ -36,6 +36,7 @@
       <SearchBar />
       <div v-if="role === 'admin'" class="admin_menu">
         <router-link to="/add-product">Add Product</router-link>
+        <router-link to="/delete-product">Delete Product</router-link>
         <router-link to="/user-manager">Manage Users</router-link>
       </div>
     </div>
@@ -46,6 +47,7 @@
 import { ref, onMounted } from "vue";
 import { auth } from "../auth.js";
 import SearchBar from "./SearchBar.vue";
+
 export default {
   setup() {
     const isLoggedIn = ref(!!localStorage.getItem("token"));
@@ -163,11 +165,17 @@ export default {
   width: 30%;
   gap: 15px;
 }
-.admin_menu a {
+.admin_menu a,
+.admin_menu button {
   text-decoration: none;
   color: white;
   background-color: #215249;
   padding: 5px 10px;
   border-radius: 5px;
+  border: none;
+  cursor: pointer;
+}
+.admin_menu button:hover {
+  background-color: #1a4038;
 }
 </style>
