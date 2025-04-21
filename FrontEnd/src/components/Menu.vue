@@ -47,9 +47,11 @@
 import { ref, onMounted } from "vue";
 import { auth } from "../auth.js";
 import SearchBar from "./SearchBar.vue";
+import { useRouter } from "vue-router";
 
 export default {
   setup() {
+    const router = useRouter(); // Accès au routeur
     const isLoggedIn = ref(!!localStorage.getItem("token"));
     const username = ref(localStorage.getItem("username") || "");
     const role = ref(localStorage.getItem("role") || "");
@@ -60,6 +62,8 @@ export default {
       localStorage.removeItem("role");
       role.value = "";
       auth.logout(); // notify listeners
+
+      router.push("/");
     };
 
     onMounted(() => {
