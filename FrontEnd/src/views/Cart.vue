@@ -55,10 +55,21 @@ onMounted(() => {
 
 <style scoped>
 .cart {
-  margin: 100px 20px 20px 20px;
-  border: 1px solid black;
-  border-radius: 15px;
-  padding: 20px;
+  max-width: 1000px;
+  margin: 100px auto;
+  padding: 30px;
+  border-radius: 16px;
+  background-color: #f9fafb;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.06);
+}
+
+.cart h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: #2d3748;
+  margin-bottom: 30px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
 }
 
 .cart-items {
@@ -68,17 +79,39 @@ onMounted(() => {
 }
 
 .cart-item {
-  border: 1px solid #ccc;
-  border-radius: 10px;
-  padding: 10px;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
+}
+
+.cart-item h2 {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2d3748;
+  margin-bottom: 10px;
+}
+
+.cart-item p {
+  font-size: 0.95rem;
+  color: #4a5568;
+  margin: 4px 0;
 }
 
 .cart-item button {
-  background-color: #ff4d4d;
+  background-color: #e53e3e;
   color: white;
+  padding: 8px 16px;
   border: none;
-  border-radius: 5px;
-  padding: 5px 10px;
+  border-radius: 9999px;
+  font-weight: 600;
   cursor: pointer;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
+}
+
+.cart-item button:hover {
+  background-color: #c53030;
 }
 </style>
