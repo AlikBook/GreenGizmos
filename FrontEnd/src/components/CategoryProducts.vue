@@ -3,11 +3,9 @@
     <h2 class="category-title">{{ categoryName }}</h2>
     <ul v-if="products.length > 0" class="products-grid">
       <li v-for="product in products" :key="product.product_id" class="product-card">
-        <img
-          :src="`https://placehold.co/300x200?text=${encodeURIComponent(product.product_name)}`"
-          :alt="product.product_name"
-          class="product-image"
-        />
+        
+        <img :src="product.img_url" loading="lazy" :alt="product.product_name" class="product-image" />
+         
         <div class="product-content">
           <h3 class="product-name">{{ product.product_name }}</h3>
           <p class="product-description">{{ product.product_description }}</p>
@@ -164,6 +162,15 @@ watch(() => categoryName, fetchProductsByCategory, { immediate: true });
 .add-to-cart-button:active {
   background-color: #2c5282;
   transform: translateY(0);
+}
+.product-image {
+  width: 100%;
+  max-width: 300px;
+  height: 200px;
+  object-fit: contain;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  background-color: #f9f9f9; /* pour éviter les zones transparentes moches */
 }
 
 </style>
