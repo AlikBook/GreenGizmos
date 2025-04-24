@@ -4,7 +4,8 @@
     <ul v-if="products.length > 0" class="products-grid">
       <li v-for="product in products" :key="product.product_id" class="product-card">
         
-        <img :src="product.img_url" loading="lazy" :alt="product.product_name" class="product-image" />
+        <img :src="optimizeImageUrl(product.img_url)" loading="lazy" :alt="product.product_name" class="product-image" />
+
          
         <div class="product-content">
           <h3 class="product-name">{{ product.product_name }}</h3>
@@ -55,6 +56,11 @@ const fetchProductsByCategory = async () => {
 };
 
 watch(() => categoryName, fetchProductsByCategory, { immediate: true });
+
+const optimizeImageUrl = (url) => {
+  if (!url || !url.includes('/upload/')) return url;
+  return url.replace('/upload/', '/upload/q_auto,f_auto/');
+};
 </script>
 
 <style scoped>
@@ -95,10 +101,7 @@ watch(() => categoryName, fetchProductsByCategory, { immediate: true });
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.04);
 }
 
-.product-card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
-}
+
 
 .product-content {
   flex-grow: 1;
@@ -154,10 +157,7 @@ watch(() => categoryName, fetchProductsByCategory, { immediate: true });
   box-shadow: 0 4px 12px rgba(49, 130, 206, 0.25);
 }
 
-.add-to-cart-button:hover {
-  background-color: #2b6cb0;
-  transform: translateY(-1px);
-}
+
 
 .add-to-cart-button:active {
   background-color: #2c5282;
