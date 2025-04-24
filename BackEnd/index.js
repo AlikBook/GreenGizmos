@@ -120,7 +120,7 @@ app.post("/register", async (req, res) => {
 
       // Insert the new user into the database
       connection.query(
-        "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+        "INSERT INTO users (username, email, password, registration_date, role) VALUES (?, ?, ?, CURRENT_DATE, ?)",
         [username, email, hashedPassword, role],
         (err, results) => {
           if (err) {
@@ -283,7 +283,7 @@ app.post("/add_product", async (req, res) => {
 
 app.get("/users", verifyToken, authorizeRoles("admin"), (req, res) => {
   connection.query(
-    "SELECT user_id, username, email, role FROM users",
+    "SELECT user_id, username, email, registration_date, role FROM users",
     (err, results) => {
       if (err)
         return res.status(500).json({ message: "Failed to fetch users" });
@@ -358,7 +358,7 @@ const createDefaultAdmin = async () => {
       await connection
         .promise()
         .execute(
-          "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
+          "INSERT INTO users (username, email, password,registration_date, role) VALUES (?, ?, ?,CURRENT_DATE, ?)",
           ["admin", "admin@example.com", hashedPassword, "admin"]
         );
       console.log("Default admin user created.");

@@ -6,6 +6,7 @@
           <tr>
             <th>Username</th>
             <th>Email</th>
+            <th>Registration Date</th>
             <th>Role</th>
             <th>Actions</th>
           </tr>
@@ -14,6 +15,7 @@
           <tr v-for="user in users" :key="user.user_id">
             <td><input v-model="user.username" /></td>
             <td><input v-model="user.email" /></td>
+            <td>{{ new Date(user.registration_date).toLocaleDateString()  }}</td>
             <td>
                 <select v-model="user.role">
                     <option value="admin">Admin</option>
@@ -102,6 +104,7 @@
   td, th {
     border: 1px solid #ccc;
     padding: 8px;
+    text-align: center;
   }
   input {
     width: 100%;

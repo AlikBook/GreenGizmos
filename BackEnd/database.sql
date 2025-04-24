@@ -27,6 +27,7 @@ CREATE TABLE users (
   username VARCHAR(255) NOT NULL UNIQUE,
   password VARCHAR(255) NOT NULL,
   email VARCHAR(255) UNIQUE NOT NULL,
+  registration_date DATE NOT NULL,
   role ENUM('admin', 'user', 'guest') DEFAULT 'guest'
 );
 
@@ -52,23 +53,23 @@ VALUES
 
 INSERT INTO Products (product_id, product_name, product_price, product_description, img_url)
 VALUES 
-(1, 'Dell Latitude', 1200.00, 'High-performance business laptop','https://i.dell.com/is/image/DellContent/content/dam/ss2/product-images/dell-client-products/notebooks/latitude-notebooks/latitude-14-3440-laptop/media-gallery/notebook-latitude-14-3440-nt-uma-gray-gallery-1.psd?fmt=pjpg&pscan=auto&scl=1&wid=3300&hei=1999&qlt=100,1&resMode=sharp2&size=3300,1999&chrss=full&imwidth=5000'),
-(2, 'HP EliteBook', 1100.00, 'Durable and efficient business laptop','https://gfx3.senetic.com/akeneo-catalog/8/4/2/d/842d8b130b65225c2ccc2d877609f995899efb45_1695003_81A19EA_AKD_image2.jpg'),
-(3, 'Lenovo ThinkPad', 1300.00, 'Reliable laptop for professionals','https://m.media-amazon.com/images/I/41eK-2bGfWL._AC_UF1000,1000_QL80_.jpg'),
-(4, 'Dell OptiPlex', 900.00, 'Compact desktop for office use','https://ordinateurpascher.com/4649-large_default/dell-optiplex-790-sff-core-i5-31-ghz-hdd-500-go-ram-16-go.jpg'),
-(5, 'HP ProDesk', 850.00, 'Powerful and efficient desktop','https://files.refurbed.com/ii/hp-prodesk-600-g3-dm-1667465192.jpg?t=resize&h=630&w=1200'),
-(6, 'Lenovo ThinkCentre', 1000.00, 'Business-class desktop','https://p2-ofp.static.pub/fes/cms/2022/08/23/glqtvt97991qr6pvpld5xlndawix36601264.png'),
-(7, 'Dell Precision', 2500.00, 'High-end workstation for professionals','https://files.refurbed.com/ii/dell-precision-5530-i7-8850h-1701775180.jpg?t=fitdesign&h=600&w=800'),
-(8, 'HP Z Workstations', 2600.00, 'Professional-grade workstation','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTYJ9O-qZU4oWk95sDH3NX5fdbs4QAPDxMaRg&s'),
-(9, 'Intel NUC', 750.00, 'Mini PC compact et performant','https://files.refurbed.com/pi/intel-nuc7i5dnhe-1602565885.jpg?t=resize&h=630&w=1200'),
-(10, 'HP Thin Client', 650.00, 'Solution compacte pour le travail en réseau','https://ssl-product-images.www8-hp.com/digmedialib/prodimg/lowres/c06426256.png'),
-(11, 'Apple iMac', 2000.00, 'Ordinateur tout-en-un haut de gamme','https://store.storeimages.cdn-apple.com/4668/as-images.apple.com/is/imac-blue-cto-hero-202410_FMT_WHH?wid=448&hei=406&fmt=jpeg&qlt=90&.v=1729011694353'),
-(12, 'Dell Inspiron AIO', 1200.00, 'PC tout-en-un avec écran intégré','https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcShkOusyEpMbm_XfD5VrBIv4VOCDheEdjeVhQ&s'),
-(13, 'Intel Core i7', 350.00, 'Processeur haute performance pour PC de bureau','https://www.grosbill-pro.com/images_produits/3fa2f00c-81a9-4bcd-9cac-dbf9a8afdae7.jpg'),
-(14, 'AMD Ryzen 7', 320.00, 'Processeur multi-cœurs pour gaming et productivité','https://m.media-amazon.com/images/I/61zovsZF-QL._AC_UF1000,1000_QL80_.jpg'),
-(15, 'Corsair Vengeance LPX 16GB', 85.00, 'Mémoire DDR4 haute vitesse','https://m.media-amazon.com/images/I/51Gs2sm696L._AC_UF894,1000_QL80_.jpg'),
-(16, 'Kingston HyperX Fury 8GB', 45.00, 'Module RAM performant',''),
-(17, 'Samsung 870 EVO SSD 1TB', 110.00, 'Disque SSD rapide et fiable',''),
+(1, 'Dell Latitude', 1200.00, 'High-performance business laptop','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414395/dell-latitude-e5490-i5-8350u-1663567421_dfbeo7.jpg'),
+(2, 'HP EliteBook', 1100.00, 'Durable and efficient business laptop','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414552/hp_elitebook_745_g6_1_v2j5jz.jpg'),
+(3, 'Lenovo ThinkPad', 1300.00, 'Reliable laptop for professionals','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414603/d03kqdwmcdhm5jlrd503v93y0hv72n243294_id1nla.png'),
+(4, 'Dell OptiPlex', 900.00, 'Compact desktop for office use','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414664/images_fmttza.jpg'),
+(5, 'HP ProDesk', 850.00, 'Powerful and efficient desktop','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414684/hp-prodesk-400-g5-mini-celeron-g4930t_n0q23f.jpg'),
+(6, 'Lenovo ThinkCentre', 1000.00, 'Business-class desktop','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414694/enfin-libre-lenovo-thinkcentre-m700-linux_jsfpxa.jpg'),
+(7, 'Dell Precision', 2500.00, 'High-end workstation for professionals','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414704/dell-precision-5550-10850h-1650345920_avzpqn.jpg'),
+(8, 'HP Z Workstations', 2600.00, 'Professional-grade workstation','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414726/i-06-HP-Z6-min_ftm82y.png'),
+(9, 'Intel NUC', 750.00, 'Mini PC compact et performant','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414736/618MO3IuJ5L._AC_UF1000_1000_QL80__nupk2x.jpg'),
+(10, 'HP Thin Client', 650.00, 'Solution compacte pour le travail en réseau','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414744/1980658784_ML_o4xiss.jpg'),
+(11, 'Apple iMac', 2000.00, 'Ordinateur tout-en-un haut de gamme','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414750/images_d8wpea.jpg'),
+(12, 'Dell Inspiron AIO', 1200.00, 'PC tout-en-un avec écran intégré','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414761/images_hqeubk.jpg'),
+(13, 'Intel Core i7', 350.00, 'Processeur haute performance pour PC de bureau','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414788/1549-intel-core-i7-14700kf-34-56ghz-box_bdy7ax.jpg'),
+(14, 'AMD Ryzen 7', 320.00, 'Processeur multi-cœurs pour gaming et productivité','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414804/51smqWKarCL_fbi0u2.jpg'),
+(15, 'Corsair Vengeance LPX 16GB', 85.00, 'Mémoire DDR4 haute vitesse','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414817/b8de0df7-5db5-4b99-bc09-88ebd92ef693_cx2ula.jpg'),
+(16, 'Kingston HyperX Fury 8GB', 45.00, 'Module RAM performant','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414827/ram-8GB-DDR4-3200MHZ-CL16-DIMM-FURY-black_rlr2hv.jpg'),
+(17, 'Samsung 870 EVO SSD 1TB', 110.00, 'Disque SSD rapide et fiable','https://res.cloudinary.com/dvnylhnro/image/upload/v1745414837/41GLhBB3OxL_jpgus0.jpg'),
 (18, 'Seagate Barracuda HDD 2TB', 60.00, 'Disque dur pour le stockage de données',''),
 (19, 'Western Digital WD Black NVMe SSD 1TB', 140.00, 'SSD ultra-rapide avec performances exceptionnelles',''),
 (20, 'Crucial P3 Plus 500GB', 65.00, 'SSD abordable et performant',''),
@@ -122,13 +123,12 @@ VALUES
 (68, 'Samsung Galaxy Tab S8', 850.00, 'Tablette Android performante et polyvalente',''),
 (69, 'iPhone 13 (refurbished)', 700.00, 'Smartphone reconditionné avec écran Retina',''),
 (70, 'Samsung Galaxy S21 (refurbished)', 600.00, 'Smartphone Android reconditionné',''),
-(71, 'Samsonite Tectonic Lifestyle Backpack', 120.00, 'Sac à dos robuste pour ordinateurs portables',''),
-(72, 'Thule Subterra Sleeve', 50.00, 'Étui protecteur pour ordinateur portable',''),
-(73, 'ASUS ZenScreen MB16AC', 250.00, 'Écran portable léger et polyvalent',''),
-(74, 'Lenovo ThinkVision M14', 220.00, 'Moniteur portable pour une productivité accrue',''),
-(75, 'Anker PowerCore 26800mAh', 80.00, 'Batterie externe haute capacité',''),
-(76, 'RAVPower 20000mAh', 60.00, 'Chargeur portable rapide et compact','');
-
+(71, 'Samsonite Tectonic Lifestyle Backpack', 120.00, 'Sac à dos robuste pour ordinateurs portables','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484575/s-l400_iu4duj.jpg'),
+(72, 'Thule Subterra Sleeve', 50.00, 'Étui protecteur pour ordinateur portable','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484624/1455161_hqnb4w.png'),
+(73, 'ASUS ZenScreen MB16AC', 250.00, 'Écran portable léger et polyvalent','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484669/ahTz2AP4zDVYrZH2_setting_xxx_0_90_end_800_dczdp7.png'),
+(74, 'Lenovo ThinkVision M14', 220.00, 'Moniteur portable pour une productivité accrue','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484717/opjtjw5onaywr5aect6k8thjofb872278749_nxz1sj.png'),
+(75, 'Anker PowerCore 26800mAh', 80.00, 'Batterie externe haute capacité','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484843/ACCUS2403090XD0QZF1_csqpyk.jpg'),
+(76, 'RAVPower 20000mAh', 60.00, 'Chargeur portable rapide et compact','https://res.cloudinary.com/dvnylhnro/image/upload/v1745484883/s-l1200_hslm5m.jpg');
 INSERT INTO Belongs_to (product_id, category_name)
 VALUES 
 (1, 'Laptops'),(2, 'Laptops'),(3, 'Laptops'),(4, 'Desktops'),(5, 'Desktops'),(6, 'Desktops'),(7, 'Workstations'),(8, 'Workstations'),
