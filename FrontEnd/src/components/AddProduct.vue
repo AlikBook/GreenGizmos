@@ -23,12 +23,15 @@
             </option>
           </select>
         </div>
+        <div class="form-group">
+          <label for="img_url">Image URL:</label>
+          <input type="url" id="img_url" v-model="img_url" required />
+        </div>
         <button type="submit">Add Product</button>
       </form>
       <p v-if="message" class="success-message">{{ message }}</p>
     </div>
   </div>
-  
 </template>
 
 <script setup>
@@ -39,9 +42,11 @@ const product_name = ref("");
 const product_price = ref("");
 const product_description = ref("");
 const category_name = ref("");
+const img_url = ref(""); // Nouveau champ pour l'URL de l'image
 const categories = ref([]);
 const message = ref("");
 
+// Charger les catégories depuis le backend
 const fetchCategories = async () => {
   try {
     const response = await axios.get("http://localhost:3000/categories");
@@ -51,6 +56,7 @@ const fetchCategories = async () => {
   }
 };
 
+// Ajouter un produit
 const addProduct = async () => {
   try {
     const response = await axios.post("http://localhost:3000/add_product", {
@@ -58,13 +64,16 @@ const addProduct = async () => {
       product_price: product_price.value,
       product_description: product_description.value,
       category_name: category_name.value,
+      img_url: img_url.value, // Inclure l'URL de l'image dans la requête
     });
     message.value = response.data.message;
 
+    // Réinitialiser le formulaire après l'ajout
     product_name.value = "";
     product_price.value = "";
     product_description.value = "";
     category_name.value = "";
+    img_url.value = "";
   } catch (error) {
     console.error("Error adding product:", error);
   }
@@ -124,7 +133,8 @@ button:hover {
   color: green;
   font-weight: bold;
 }
-.add_product_page{
+
+.add_product_page {
   width: 100%;
   padding: 40px;
   margin: 0 auto;
