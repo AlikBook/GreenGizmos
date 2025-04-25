@@ -81,7 +81,11 @@ Paul implemented the first filters for the products
 Ivan improved the style of the pages 
 
 Gabriel developed the option "Add to cart"
+
 Ivan developed the different roles (Guest, User, Admin)
+
 Paul implemented the search bar and the possibility to add and delete a product
+
 Alexan implemented the final version of the display of the products on the pages.
+
 Everyone add some pictures to the database
