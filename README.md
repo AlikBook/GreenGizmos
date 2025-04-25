@@ -71,10 +71,15 @@ You can also log in to the admin account and then add or remove products from th
 # Contributors and commit : 
 
 Gabriel initialized the Vue application
+
 Ivan and Alexan created the structure of the pages
+
 Gabriel connected the database to the back end
+
 Paul implemented the first filters for the products
+
 Ivan improved the style of the pages 
+
 Gabriel developed the option "Add to cart"
 Ivan developed the different roles (Guest, User, Admin)
 Paul implemented the search bar and the possibility to add and delete a product
