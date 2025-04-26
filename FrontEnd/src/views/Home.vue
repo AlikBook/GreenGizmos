@@ -36,20 +36,32 @@
     />
     <div class="featured_products_container">
       <div class="featured_product">
-        <img src="../imgs/Dell_latitude.webp" alt="" />
+        <img
+          src="https://res.cloudinary.com/dvnylhnro/image/upload/v1745414395/dell-latitude-e5490-i5-8350u-1663567421_dfbeo7.jpg"
+          alt=""
+        />
         <h3>Dell Latitude</h3>
       </div>
       <div class="featured_product">
-        <img src="../imgs/Kingston.webp" alt="" />
-        <h3>Kingston HyperX Fury 8GB</h3>
+        <img
+          src="https://res.cloudinary.com/dvnylhnro/image/upload/v1745414788/1549-intel-core-i7-14700kf-34-56ghz-box_bdy7ax.jpg"
+          alt=""
+        />
+        <h3>Intel Core i7</h3>
       </div>
       <div class="featured_product">
-        <img src="../imgs/Corsair.webp" alt="" />
-        <h3>Corsair RM750x</h3>
+        <img
+          src="https://res.cloudinary.com/dvnylhnro/image/upload/v1745524558/71tduSp8ooL._AC_SX679__j1c7mn.jpg"
+          alt=""
+        />
+        <h3>NVIDIA GeForce RTX 3060</h3>
       </div>
       <div class="featured_product">
-        <img src="../imgs/Galaxy_tab.webp" alt="" />
-        <h3>Samsung Galaxy Tab S8</h3>
+        <img
+          src="https://res.cloudinary.com/dvnylhnro/image/upload/v1745488633/shopping_ahy0b4.webp"
+          alt=""
+        />
+        <h3>Logitech MX Master 3</h3>
       </div>
     </div>
   </section>
