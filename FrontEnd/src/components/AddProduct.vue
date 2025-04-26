@@ -47,7 +47,6 @@ const img_url = ref("");
 const categories = ref([]);
 const message = ref("");
 
-// Charger les catégories depuis le backend
 const fetchCategories = async () => {
   try {
     const response = await axios.get(`${API_BASE_URL}/categories`); 
@@ -57,7 +56,6 @@ const fetchCategories = async () => {
   }
 };
 
-// Ajouter un produit
 const addProduct = async () => {
   try {
     const response = await axios.post(`${API_BASE_URL}/add_product`, { 
@@ -69,7 +67,6 @@ const addProduct = async () => {
     });
     message.value = response.data.message;
 
-    // Réinitialiser le formulaire après l'ajout
     product_name.value = "";
     product_price.value = "";
     product_description.value = "";
