@@ -5,11 +5,19 @@
       <form @submit.prevent="deleteProduct">
         <div class="form-group">
           <label for="product_name">Product Name:</label>
-          <input type="text" id="product_name" v-model="product_name" required />
+          <input
+            type="text"
+            id="product_name"
+            v-model="product_name"
+            required
+          />
         </div>
         <button type="submit">Delete Product</button>
       </form>
-      <p v-if="message" :class="{'success-message': success, 'error-message': !success}">
+      <p
+        v-if="message"
+        :class="{ 'success-message': success, 'error-message': !success }"
+      >
         {{ message }}
       </p>
     </div>
@@ -19,6 +27,7 @@
 <script setup>
 import { ref } from "vue";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js";
 
 const product_name = ref("");
 const message = ref("");
@@ -27,17 +36,21 @@ const success = ref(false);
 const deleteProduct = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.delete("http://localhost:3000/delete_product_by_name", {
-      headers: { Authorization: `Bearer ${token}` },
-      data: { product_name: product_name.value },
-    });
+    const response = await axios.delete(
+      `${API_BASE_URL}/delete_product_by_name`,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+        data: { product_name: product_name.value },
+      }
+    );
 
     message.value = response.data.message;
     success.value = true;
     product_name.value = "";
   } catch (error) {
     console.error("Error deleting product:", error);
-    message.value = error.response?.data?.message || "Failed to delete product.";
+    message.value =
+      error.response?.data?.message || "Failed to delete product.";
     success.value = false;
   }
 };
