@@ -9,23 +9,24 @@ require("dotenv").config();
 app.use(cors());
 app.use(express.json());
 
-const connection = mysql.createConnection({
+const pool = mysql.createPool({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   port: process.env.DB_PORT,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
+  waitForConnections: true,
+  connectionLimit: 10,
+  queueLimit: 0,
 });
 
-connection.connect((err) => {
+pool.getConnection((err, connection) => {
   if (err) {
     console.error("Erreur de connexion à la base de données:", err.stack);
     return;
   }
-  console.log(
-    "Connexion réussie à la base de données avec l'ID",
-    connection.threadId
-  );
+  console.log("Connexion réussie à la base de données !");
+  connection.release();
   createDefaultAdmin();
 });
 
@@ -34,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  connection.query("SELECT * FROM products", (err, results) => {
+  pool.query("SELECT * FROM products", (err, results) => {
     if (err) {
       console.error("Error while getting the products:", err);
       return res.status(500).json({ error: "Server error" });
@@ -46,7 +47,7 @@ app.get("/products", (req, res) => {
 app.get("/products_by_category", async (req, res) => {
   const category = req.query.category;
   try {
-    const [rows] = await connection.promise().execute(
+    const [rows] = await pool.promise().execute(
       `
       SELECT p.* 
       FROM Products p
@@ -66,7 +67,7 @@ app.get("/products_by_category", async (req, res) => {
 app.get("/search_products", async (req, res) => {
   const searchTerm = req.query.q;
   try {
-    const [rows] = await connection.promise().execute(
+    const [rows] = await pool.promise().execute(
       `
       SELECT * 
       FROM Products
@@ -83,7 +84,7 @@ app.get("/search_products", async (req, res) => {
 
 app.get("/categories", async (req, res) => {
   try {
-    const [rows] = await connection
+    const [rows] = await pool
       .promise()
       .execute("SELECT category_name FROM Categories");
     res.json(rows);
@@ -97,7 +98,7 @@ app.post("/register", async (req, res) => {
   const { username, email, password, role = "user" } = req.body;
 
   // Check if the email already exists
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE email = ?",
     [email],
     async (err, results) => {
@@ -113,7 +114,7 @@ app.post("/register", async (req, res) => {
       const hashedPassword = await bcrypt.hash(password, 10);
 
       // Insert the new user into the database
-      connection.query(
+      pool.query(
         "INSERT INTO users (username, email, password, registration_date, role) VALUES (?, ?, ?, CURRENT_DATE, ?)",
         [username, email, hashedPassword, role],
         (err, results) => {
@@ -158,7 +159,7 @@ app.get("/admin/data", verifyToken, authorizeRoles("admin"), (req, res) => {
 app.post("/login", (req, res) => {
   const { username, password } = req.body;
 
-  connection.query(
+  pool.query(
     "SELECT * FROM users WHERE username = ?",
     [username],
     async (err, results) => {
@@ -196,7 +197,7 @@ app.post("/cart", verifyToken, (req, res) => {
     ON DUPLICATE KEY UPDATE quantity = quantity + ?;
   `;
 
-  connection.query(
+  pool.query(
     query,
     [user_id, product_id, quantity, quantity],
     (err, results) => {
@@ -217,7 +218,7 @@ app.get("/cart", verifyToken, (req, res) => {
     SELECT * FROM Cart c WHERE c.user_id = ?;
   `;
 
-  connection.query(query, [user_id], (err, results) => {
+  pool.query(query, [user_id], (err, results) => {
     if (err) {
       console.error("Error fetching cart items:", err);
       return res.status(500).json({ error: "Server error" });
@@ -236,7 +237,7 @@ app.delete("/cart", verifyToken, (req, res) => {
     WHERE user_id = ? AND product_id = ?;
   `;
 
-  connection.query(query, [user_id, product_id], (err, results) => {
+  pool.query(query, [user_id, product_id], (err, results) => {
     if (err) {
       console.error("Error deleting cart item:", err);
       return res.status(500).json({ error: "Server error" });
@@ -250,7 +251,7 @@ app.post("/add_product", async (req, res) => {
     req.body;
 
   try {
-    const [result] = await connection.promise().execute(
+    const [result] = await pool.promise().execute(
       `
       INSERT INTO Products (product_name, product_price, product_description)
       VALUES (?, ?, ?)
@@ -260,7 +261,7 @@ app.post("/add_product", async (req, res) => {
 
     const product_id = result.insertId;
 
-    await connection.promise().execute(
+    await pool.promise().execute(
       `
       INSERT INTO Belongs_to (product_id, category_name)
       VALUES (?, ?)
@@ -276,7 +277,7 @@ app.post("/add_product", async (req, res) => {
 });
 
 app.get("/users", verifyToken, authorizeRoles("admin"), (req, res) => {
-  connection.query(
+  pool.query(
     "SELECT user_id, username, email, registration_date, role FROM users",
     (err, results) => {
       if (err)
@@ -290,7 +291,7 @@ app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
   const userId = req.params.id;
   const { username, email, role } = req.body;
 
-  connection.query(
+  pool.query(
     "UPDATE users SET username = ?, email = ?, role = ? WHERE user_id = ?",
     [username, email, role, userId],
     (err) => {
@@ -304,7 +305,7 @@ app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
 app.delete("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
   const userId = req.params.id;
 
-  connection.query("DELETE FROM users WHERE user_id = ?", [userId], (err) => {
+  pool.query("DELETE FROM users WHERE user_id = ?", [userId], (err) => {
     if (err) return res.status(500).json({ message: "Failed to delete user" });
     res.json({ message: "User deleted successfully" });
   });
@@ -318,7 +319,7 @@ app.delete(
     const { product_name } = req.body;
 
     try {
-      await connection.promise().execute(
+      await pool.promise().execute(
         `
       DELETE FROM Belongs_to
       WHERE product_id = (SELECT product_id FROM Products WHERE product_name = ?)
@@ -326,7 +327,7 @@ app.delete(
         [product_name]
       );
 
-      const [result] = await connection.promise().execute(
+      const [result] = await pool.promise().execute(
         `
       DELETE FROM Products
       WHERE product_name = ?
@@ -348,13 +349,13 @@ app.delete(
 
 const createDefaultAdmin = async () => {
   try {
-    const [rows] = await connection
+    const [rows] = await pool
       .promise()
       .execute("SELECT * FROM users WHERE username = ?", ["admin"]);
 
     if (rows.length === 0) {
       const hashedPassword = await bcrypt.hash("admin123", 10);
-      await connection
+      await pool
         .promise()
         .execute(
           "INSERT INTO users (username, email, password,registration_date, role) VALUES (?, ?, ?,CURRENT_DATE, ?)",
