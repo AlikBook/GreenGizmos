@@ -35,7 +35,7 @@ app.get("/", (req, res) => {
 });
 
 app.get("/products", (req, res) => {
-  pool.query("SELECT * FROM products", (err, results) => {
+  pool.query("SELECT * FROM Products", (err, results) => {
     if (err) {
       console.error("Error while getting the products:", err);
       return res.status(500).json({ error: "Server error" });
