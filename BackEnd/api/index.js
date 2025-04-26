@@ -5,11 +5,8 @@ const cors = require("cors");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 
-const PORT = 3000;
-
 require("dotenv").config();
 app.use(cors());
-
 app.use(express.json());
 
 const connection = mysql.createConnection({
@@ -94,10 +91,6 @@ app.get("/categories", async (req, res) => {
     console.error("Error fetching categories:", error);
     res.status(500).send("Error fetching categories");
   }
-});
-
-app.listen(process.env.DB_PORT, () => {
-  console.log(`Backend server started on http://localhost:${PORT}`);
 });
 
 app.post("/register", async (req, res) => {
@@ -375,3 +368,5 @@ const createDefaultAdmin = async () => {
     console.error("Error creating default admin:", error);
   }
 };
+
+module.exports = app;
