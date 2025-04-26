@@ -29,6 +29,7 @@
 import { ref, watch } from "vue";
 import { useRoute } from "vue-router";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js"; 
 
 const route = useRoute();
 const searchTerm = ref(route.query.q || "");
@@ -37,7 +38,7 @@ const results = ref([]);
 const fetchResults = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/search_products?q=${searchTerm.value}`
+      `${API_BASE_URL}/search_products?q=${searchTerm.value}` 
     );
     results.value = response.data;
   } catch (error) {
@@ -59,7 +60,7 @@ const addToCart = async (product) => {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      "http://localhost:3000/cart",
+      `${API_BASE_URL}/cart`, 
       {
         product_id: product.product_id,
         quantity: 1,

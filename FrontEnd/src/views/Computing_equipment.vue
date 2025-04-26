@@ -11,26 +11,25 @@
 <script setup>
 import CategoryProducts from "../components/CategoryProducts.vue";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js"; 
 
 const addToCart = async (product) => {
   try {
-    const token = localStorage.getItem('token'); // Récupère le token depuis le localStorage
+    const token = localStorage.getItem("token");
     const response = await axios.post(
-      'http://localhost:3000/cart', // Route backend pour ajouter au panier
+      `${API_BASE_URL}/cart`, 
       {
         product_id: product.product_id,
-        quantity: 1, // On ajoute une quantité de 1 par défaut
+        quantity: 1,
       },
       {
-        headers: { Authorization: `Bearer ${token}` }, // Ajoute le token à l'en-tête de la requête
+        headers: { Authorization: `Bearer ${token}` },
       }
     );
-    alert(`${product.product_name} has been added to your cart!`); // Confirmation
+    alert(`${product.product_name} has been added to your cart!`);
   } catch (error) {
-    console.error('Error adding product to cart:', error);
-    alert('Failed to add product to cart.');
+    console.error("Error adding product to cart:", error);
+    alert("Failed to add product to cart.");
   }
 };
-
-
 </script>

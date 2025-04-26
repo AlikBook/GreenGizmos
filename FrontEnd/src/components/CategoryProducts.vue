@@ -30,6 +30,7 @@
 <script setup>
 import { ref, watch } from "vue";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js"; 
 
 const { categoryName, addToCart } = defineProps({
   categoryName: {
@@ -47,7 +48,7 @@ const products = ref([]);
 const fetchProductsByCategory = async () => {
   try {
     const response = await axios.get(
-      `http://localhost:3000/products_by_category?category=${encodeURIComponent(categoryName)}`
+      `${API_BASE_URL}/products_by_category?category=${encodeURIComponent(categoryName)}` 
     );
     products.value = response.data;
   } catch (error) {
@@ -145,7 +146,7 @@ const optimizeImageUrl = (url) => {
 }
 
 .add-to-cart-button {
-  background-color: #3182ce; /* bleu élégant */
+  background-color: #3182ce; 
   color: white;
   padding: 10px 18px;
   border: none;
@@ -170,7 +171,7 @@ const optimizeImageUrl = (url) => {
   object-fit: contain;
   border-radius: 10px;
   margin-bottom: 10px;
-  background-color: #f9f9f9; /* pour éviter les zones transparentes moches */
+  background-color: #f9f9f9; 
 }
 
 </style>

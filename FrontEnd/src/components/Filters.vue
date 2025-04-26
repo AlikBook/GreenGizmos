@@ -17,11 +17,12 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js"; 
 
 const data = ref([]);
 const fetchData = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/products");
+    const response = await axios.get(`${API_BASE_URL}/products`); 
     data.value = response.data;
   } catch (error) {
     console.error("Error fetching data:", error);
@@ -32,7 +33,7 @@ const addToCart = async (product) => {
   try {
     const token = localStorage.getItem("token");
     await axios.post(
-      "http://localhost:3000/cart",
+      `${API_BASE_URL}/cart`, 
       {
         product_id: product.product_id,
         quantity: 1,

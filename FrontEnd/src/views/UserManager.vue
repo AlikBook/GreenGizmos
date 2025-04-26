@@ -36,7 +36,8 @@
   
   <script>
   import axios from "axios";
-  
+  import { API_BASE_URL } from "../config.js";
+
   export default {
     data() {
       return {
@@ -47,7 +48,7 @@
     async created() {
       try {
         const token = localStorage.getItem("token");
-        const response = await axios.get("http://localhost:3000/users", {
+        const response = await axios.get(`${API_BASE_URL}/users`, { 
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -61,7 +62,7 @@
       async updateUser(user) {
         try {
           const token = localStorage.getItem("token");
-          await axios.put(`http://localhost:3000/users/${user.user_id}`, user, {
+          await axios.put(`${API_BASE_URL}/users/${user.user_id}`, user, { 
             headers: {
               Authorization: `Bearer ${token}`,
             },
@@ -74,12 +75,12 @@
       async deleteUser(userId) {
         try {
           const token = localStorage.getItem("token");
-          await axios.delete(`http://localhost:3000/users/${userId}`, {
+          await axios.delete(`${API_BASE_URL}/users/${userId}`, {
             headers: {
               Authorization: `Bearer ${token}`,
             },
           });
-          this.users = this.users.filter(u => u.user_id !== userId);
+          this.users = this.users.filter((u) => u.user_id !== userId);
           this.message = "User deleted successfully.";
         } catch (error) {
           this.message = error.response?.data?.message || "Failed to delete user.";
@@ -113,4 +114,3 @@
     margin: 0 4px;
   }
   </style>
-  

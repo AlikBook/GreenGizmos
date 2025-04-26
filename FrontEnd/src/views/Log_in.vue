@@ -25,46 +25,44 @@
   </template>
   
 <script>
-  import axios from "axios";
-  import { auth } from "../auth.js";
-  
-  export default {
-    data() {
-      return {
-        username: "",
-        password: "",
-        errorMessage: "",
-        successMessage: "",
-      };
-    },
-    methods: {
-      async loginUser() {
-        
-        
-        try {
-          const response = await axios.post("http://localhost:3000/login", {
-            username: this.username,
-            password: this.password,
-          });
-  
-          this.successMessage = "Login successful!";
-          this.errorMessage = "";
-  
-          localStorage.setItem("token", response.data.token);
-          localStorage.setItem("username", this.username);
-          localStorage.setItem("role", response.data.role);
-          auth.login();
-          this.username = "";
-          this.password = "";
-          this.$router.push("/");
+import axios from "axios";
+import { auth } from "../auth.js";
+import { API_BASE_URL } from "../config.js"; 
 
-        } catch (error) {
-          this.errorMessage = error.response?.data?.message || "Login failed.";
-          this.successMessage = "";
-        }
-      },
+export default {
+  data() {
+    return {
+      username: "",
+      password: "",
+      errorMessage: "",
+      successMessage: "",
+    };
+  },
+  methods: {
+    async loginUser() {
+      try {
+        const response = await axios.post(`${API_BASE_URL}/login`, {
+          username: this.username,
+          password: this.password,
+        });
+
+        this.successMessage = "Login successful!";
+        this.errorMessage = "";
+
+        localStorage.setItem("token", response.data.token);
+        localStorage.setItem("username", this.username);
+        localStorage.setItem("role", response.data.role);
+        auth.login();
+        this.username = "";
+        this.password = "";
+        this.$router.push("/");
+      } catch (error) {
+        this.errorMessage = error.response?.data?.message || "Login failed.";
+        this.successMessage = "";
+      }
     },
-  };
+  },
+};
 </script>
   
 <style scoped>
@@ -118,4 +116,3 @@
   }
 
 </style>
-  

@@ -23,7 +23,8 @@
   
 <script>
 import axios from "axios";
-import { auth } from "../auth.js"; // import auth to notify the login
+import { auth } from "../auth.js";
+import { API_BASE_URL } from "../config.js"; 
 
 export default {
   data() {
@@ -38,7 +39,7 @@ export default {
   methods: {
     async registerUser() {
       try {
-        const registerResponse = await axios.post("http://localhost:3000/register", {
+        const registerResponse = await axios.post(`${API_BASE_URL}/register`, {
           username: this.username,
           email: this.email,
           password: this.password,
@@ -47,20 +48,16 @@ export default {
         this.successMessage = registerResponse.data.message;
         this.errorMessage = "";
 
-        // Automatically log the user in
-        const loginResponse = await axios.post("http://localhost:3000/login", {
+        const loginResponse = await axios.post(`${API_BASE_URL}/login`, { 
           username: this.username,
           password: this.password,
         });
 
         localStorage.setItem("token", loginResponse.data.token);
         localStorage.setItem("username", this.username);
-        auth.login(); // Notify app of login
+        auth.login();
 
-        // Redirect to home
         this.$router.push("/");
-
-        // Optionally clear form
         this.username = "";
         this.email = "";
         this.password = "";

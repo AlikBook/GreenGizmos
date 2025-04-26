@@ -37,19 +37,20 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
+import { API_BASE_URL } from "../config.js"; 
 
 const product_name = ref("");
 const product_price = ref("");
 const product_description = ref("");
 const category_name = ref("");
-const img_url = ref(""); // Nouveau champ pour l'URL de l'image
+const img_url = ref("");
 const categories = ref([]);
 const message = ref("");
 
 // Charger les catégories depuis le backend
 const fetchCategories = async () => {
   try {
-    const response = await axios.get("http://localhost:3000/categories");
+    const response = await axios.get(`${API_BASE_URL}/categories`); 
     categories.value = response.data.map((category) => category.category_name);
   } catch (error) {
     console.error("Error fetching categories:", error);
@@ -59,12 +60,12 @@ const fetchCategories = async () => {
 // Ajouter un produit
 const addProduct = async () => {
   try {
-    const response = await axios.post("http://localhost:3000/add_product", {
+    const response = await axios.post(`${API_BASE_URL}/add_product`, { 
       product_name: product_name.value,
       product_price: product_price.value,
       product_description: product_description.value,
       category_name: category_name.value,
-      img_url: img_url.value, // Inclure l'URL de l'image dans la requête
+      img_url: img_url.value,
     });
     message.value = response.data.message;
 
