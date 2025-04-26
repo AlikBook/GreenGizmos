@@ -96,7 +96,7 @@ app.get("/categories", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
+app.listen(process.env.DB_PORT, () => {
   console.log(`Backend server started on http://localhost:${PORT}`);
 });
 
