@@ -3,7 +3,7 @@
     <nav class="Menu">
       <router-link to="/" class="logo-link">
         <div class="logo">
-          <img src="../imgs/logo.png" alt="" width="40px" height="40px" />
+          <img src="../imgs/logo.webp" alt="" width="40px" height="40px" />
           <h2>Green Gizmos</h2>
         </div>
       </router-link>
