@@ -305,11 +305,16 @@ app.put("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
 app.delete("/users/:id", verifyToken, authorizeRoles("admin"), (req, res) => {
   const userId = req.params.id;
 
-  pool.query("DELETE FROM users WHERE user_id = ?", [userId], (err) => {
-    if (err) return res.status(500).json({ message: "Failed to delete user" });
-    res.json({ message: "User deleted successfully" });
+  pool.query("DELETE FROM cart WHERE user_id = ?", [userId], (err) => {
+    if (err) return res.status(500).json({ message: "Failed to delete user's cart" });
+
+    pool.query("DELETE FROM users WHERE user_id = ?", [userId], (err) => {
+      if (err) return res.status(500).json({ message: "Failed to delete user" });
+      res.json({ message: "User and their cart deleted successfully" });
+    });
   });
 });
+
 
 app.delete(
   "/delete_product_by_name",

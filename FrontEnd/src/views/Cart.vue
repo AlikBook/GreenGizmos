@@ -6,7 +6,6 @@
         <h2>Cart ID: {{ cart.cart_id }}</h2>
         <p>Product ID: {{ cart.product_id || "N/A" }}</p>
         <p>Quantity: {{ cart.quantity }}</p>
-        <p>Status: {{ cart.status }}</p>
         <p>Added At: {{ new Date(cart.added_at).toLocaleString() }}</p>
         <button @click="removeFromCart(cart.cart_id)">Remove</button>
       </div>
