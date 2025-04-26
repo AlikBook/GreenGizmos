@@ -9,5 +9,5 @@ export const auth = {
   },
   logout() {
     emitter.emit("auth-change", false);
-  }
+  },
 };
