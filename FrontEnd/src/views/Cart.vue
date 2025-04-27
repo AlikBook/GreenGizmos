@@ -16,14 +16,14 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios";
-import { API_BASE_URL } from "../config.js"; 
+import { API_BASE_URL } from "../config.js";
 
 const cartitem = ref([]);
 
 const fetchCartItems = async () => {
   try {
     const token = localStorage.getItem("token");
-    const response = await axios.get(`${API_BASE_URL}/cart`, { 
+    const response = await axios.get(`${API_BASE_URL}/cart`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     cartitem.value = response.data;
@@ -36,7 +36,7 @@ const fetchCartItems = async () => {
 const removeFromCart = async (cartId) => {
   try {
     const token = localStorage.getItem("token");
-    await axios.delete(`${API_BASE_URL}/cart`, { 
+    await axios.delete(`${API_BASE_URL}/cart`, {
       headers: { Authorization: `Bearer ${token}` },
       data: { product_id: cartId },
     });
