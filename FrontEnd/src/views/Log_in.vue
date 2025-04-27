@@ -1,33 +1,29 @@
-<template >
+<template>
   <div class="login">
     <div class="login_container">
       <h2>Login</h2>
       <form @submit.prevent="loginUser">
-        
-          <label for="username">Username:</label>
-          <br>
-          <input type="text" v-model="username" id="username" required />
-        
-  
-        
-          <label for="password">Password:</label>
-          <br>
-          <input type="password" v-model="password" id="password" required />
-     
-  
+        <label for="username">Username:</label>
+        <br />
+        <input type="text" v-model="username" id="username" required />
+
+        <label for="password">Password:</label>
+        <br />
+        <input type="password" v-model="password" id="password" required />
+
         <button type="submit">Login</button>
-  
+
         <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
         <p v-if="successMessage" class="success">{{ successMessage }}</p>
       </form>
     </div>
   </div>
-  </template>
-  
+</template>
+
 <script>
 import axios from "axios";
 import { auth } from "../auth.js";
-import { API_BASE_URL } from "../config.js"; 
+import { API_BASE_URL } from "../config.js";
 
 export default {
   data() {
@@ -64,55 +60,54 @@ export default {
   },
 };
 </script>
-  
+
 <style scoped>
-  .error {
-    text-align: center;
-    color: red;
-    
-  }
-  .success {
-    text-align: center;
-    color: green;
-  }
-  .login{
-    width: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: rgba(52, 52, 52, 0.395);
-    }
+.error {
+  text-align: center;
+  color: red;
+}
+.success {
+  text-align: center;
+  color: green;
+}
+.login {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(52, 52, 52, 0.395);
+  height: 80vh;
+}
 
-  form{
-    width: 80%;
-  }
-  .login_container{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    height: 300px;
-    width: 300px;
-    background-color: white;
-    margin: 20px;
-    border-radius: 10px;
-    gap: 10px;
-  }
-  .login_container input{
-    width: 100%;
-    margin-bottom: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-  }
-  .login_container button{
-    width: 100%;
-    background-color: #215249;
-    color: white;
-    border: none;
-    padding: 10px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-bottom: 10px;
-  }
-
+form {
+  width: 80%;
+}
+.login_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 300px;
+  width: 300px;
+  background-color: white;
+  margin: 20px;
+  border-radius: 10px;
+  gap: 10px;
+}
+.login_container input {
+  width: 100%;
+  margin-bottom: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+.login_container button {
+  width: 100%;
+  background-color: #215249;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  margin-bottom: 10px;
+}
 </style>

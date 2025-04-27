@@ -20,11 +20,11 @@
     </div>
   </div>
 </template>
-  
+
 <script>
 import axios from "axios";
 import { auth } from "../auth.js";
-import { API_BASE_URL } from "../config.js"; 
+import { API_BASE_URL } from "../config.js";
 
 export default {
   data() {
@@ -48,7 +48,7 @@ export default {
         this.successMessage = registerResponse.data.message;
         this.errorMessage = "";
 
-        const loginResponse = await axios.post(`${API_BASE_URL}/login`, { 
+        const loginResponse = await axios.post(`${API_BASE_URL}/login`, {
           username: this.username,
           password: this.password,
         });
@@ -62,7 +62,8 @@ export default {
         this.email = "";
         this.password = "";
       } catch (error) {
-        this.errorMessage = error.response?.data?.message || "An error occurred.";
+        this.errorMessage =
+          error.response?.data?.message || "An error occurred.";
         this.successMessage = "";
       }
     },
@@ -70,7 +71,6 @@ export default {
 };
 </script>
 
-  
 <style scoped>
 .signup {
   width: 100%;
@@ -78,6 +78,7 @@ export default {
   justify-content: center;
   align-items: center;
   background-color: rgba(52, 52, 52, 0.395);
+  height: 80vh;
 }
 .signup_container {
   display: flex;
@@ -108,9 +109,9 @@ export default {
   margin-bottom: 10px;
 }
 
-form{
-    width: 80%;
-  }
+form {
+  width: 80%;
+}
 .error {
   text-align: center;
   color: red;
