@@ -215,7 +215,17 @@ app.get("/cart", verifyToken, (req, res) => {
   const user_id = req.user.user_id; // Get the user_id from the token
 
   const query = `
-    SELECT * FROM Cart c WHERE c.user_id = ?;
+    SELECT 
+      c.cart_id,
+      c.product_id,
+      p.product_name,
+      p.img_url,
+      c.quantity,
+      c.added_at,
+      c.status
+    FROM Cart c
+    JOIN Products p ON c.product_id = p.product_id
+    WHERE c.user_id = ?;
   `;
 
   pool.query(query, [user_id], (err, results) => {

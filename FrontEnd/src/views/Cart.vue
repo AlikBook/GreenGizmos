@@ -2,8 +2,9 @@
   <div class="cart">
     <h1>Your cart</h1>
     <div class="cart-items">
-      <div class="cart-item" v-for="cart in cartitem">
-        <h2>Cart ID: {{ cart.cart_id }}</h2>
+      <div class="cart-item" v-for="cart in cartitem" :key="cart.cart_id">
+        <h2>{{ cart.product_name }}</h2>
+        <img v-if="cart.img_url" :src="cart.img_url" alt="Product Image" style="width: 100px; height: auto;" />
         <p>Product ID: {{ cart.product_id || "N/A" }}</p>
         <p>Quantity: {{ cart.quantity }}</p>
         <p>Added At: {{ new Date(cart.added_at).toLocaleString() }}</p>
@@ -12,6 +13,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { ref, onMounted } from "vue";
