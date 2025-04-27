@@ -66,6 +66,11 @@ You can type a string and if this string is contained in one or more products, t
 ### Sign up / Log in
 You can create a guest account if you want to buy a product
 You can also log in to the admin account and then add or remove products from the database. You can also manage the users of the website
+To login as an admin use this credentials
+
+Username: admin
+Password : admin123
+
 
 # Contributors and commit : 
 
