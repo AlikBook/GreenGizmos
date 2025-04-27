@@ -24,20 +24,13 @@ npm install
 You have to create a file named ".env" in the Backend directory and put the following elements inside:
 
 ```ssh
-DB_HOST=localhost
+DB_HOST=centerbeam.proxy.rlwy.net
+DB_PORT=16363
 DB_USER=root
-DB_PASSWORD="password_of_user"
-DB_NAME=greenguizmos
+DB_PASSWORD=AiqZbioDiSxqwlTYnVSRoevOXfXaEYha
+DB_NAME=railway
+JWT_SECRET=supersecretkey123
 ```
-
-Create the database on mysql with the code in database.sql in BackEnd.
-
-To launch the server:
-
-```ssh
-npm start
-```
-
 We use Nodemon so you only have to save the files and the server will restart itself.
 
 To install the depedencies:
@@ -45,6 +38,12 @@ To install the depedencies:
 ```ssh
 cd FrontEnd
 npm install
+```
+
+You have to create a file named ".env" in the Frontend directory and put the following elements inside:
+
+```ssh
+VITE_API_BASE_URL=https://green-it-tau.vercel.app
 ```
 
 To launch the Vue app:
