@@ -12,35 +12,6 @@ Please find our website with this [link](https://green-it-vuejs.vercel.app/).
 
 # Instructions to configure and run the project
 
-## Before starting:
-
-```ssh
-node -v
-npm -v
-```
-
-If you don't have it, install it.
-
-## Then you have to install the packages:
-
-```ssh
-cd BackEnd
-npm install
-```
-
-You have to create a file named ".env" in the Backend directory and put the following elements inside:
-
-```ssh
-DB_HOST=centerbeam.proxy.rlwy.net
-DB_PORT=16363
-DB_USER=root
-DB_PASSWORD=AiqZbioDiSxqwlTYnVSRoevOXfXaEYha
-DB_NAME=railway
-JWT_SECRET=supersecretkey123
-```
-
-We use Nodemon so you only have to save the files and the server will restart itself.
-
 To install the depedencies:
 
 ```ssh
