@@ -18,6 +18,9 @@ const pool = mysql.createPool({
   waitForConnections: true,
   connectionLimit: 10,
   queueLimit: 0,
+  ssl: {
+    rejectUnauthorized: true 
+  }
 });
 
 pool.getConnection((err, connection) => {
@@ -384,5 +387,10 @@ const createDefaultAdmin = async () => {
     console.error("Error creating default admin:", error);
   }
 };
+
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+    console.log(`Server ready listo on port ${PORT}`);
+});
 
 module.exports = app;
