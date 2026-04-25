@@ -1,4 +1,4 @@
-# GreenGuizmos : GREEN IT project
+# 🌿GreenGuizmos : GREEN IT project
 
 It is a fullstack application:
 
