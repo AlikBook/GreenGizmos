@@ -6,9 +6,8 @@ It is a fullstack application:
 - Backend: Node.js + Express
 
 We hosted our website on [Vercel](https://vercel.com) for the Vue.js Frontend and the Node.js Backend.
-We hosted our database on [Railway](https://railway.com).
 
-Please find our website with this [link](https://green-it-vuejs.vercel.app/).
+Please find our website with this [link](https://green-gizmos.vercel.app/).
 
 # Instructions to configure and run the project
 
