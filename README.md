@@ -1,4 +1,4 @@
-# This is our GREEN IT project: GreenGuizmos
+# GreenGuizmos : GREEN IT project
 
 It is a fullstack application:
 
